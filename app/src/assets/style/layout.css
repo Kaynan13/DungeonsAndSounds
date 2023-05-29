@@ -1,0 +1,807 @@
+@font-face {
+  font-family: dragon;
+  src: url(../fonts/DragonHunter-9Ynxj.otf);
+}
+body #app {
+  width: 100%;
+  min-height: 100svh;
+  color: #fff;
+}
+body .el-loading-spinner .path {
+  stroke: #971111;
+}
+body .title-bar {
+  width: 100%;
+  height: 30px;
+  background-color: #111;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 999999999;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+body .title-bar .left-content {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 5px;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+body .title-bar .right-content {
+  height: 100%;
+  -webkit-app-region: no-drag;
+}
+body .title-bar .right-content button {
+  background: none;
+  padding: 0 20px;
+  height: 100%;
+  border-radius: 0 !important;
+  border: none !important;
+  outline: none !important;
+  color: #555;
+  transition: all 0.3s ease;
+}
+body .title-bar .right-content button:hover {
+  background-color: #333;
+  outline: none !important;
+  box-shadow: none !important;
+  color: #fff;
+}
+body .aside-menu-icons {
+  width: 55px;
+  height: calc(100% - 30px);
+  background-color: #111;
+  position: fixed;
+  left: 0;
+  top: 30px;
+}
+body .aside-menu-icons img {
+  width: calc(100% - 10px);
+  margin: 10px 5px 5px 5px;
+}
+body .aside-menu-icons ul {
+  width: 100%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+body .aside-menu-icons ul li {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  cursor: pointer;
+  color: #fff;
+}
+body .aside-menu-icons ul li.active {
+  color: #971111;
+  border-left: 2px solid #971111;
+  width: calc(100% - 2px);
+}
+body .aside-menu-icons ul li .el-icon {
+  transition: all 0.3s ease;
+}
+body .aside-menu-icons ul li:hover .el-icon {
+  transform: scale(1.1);
+}
+body main {
+  width: calc(100% - 55px);
+  overflow: auto;
+  min-height: calc(100svh - 30px);
+  margin-top: 30px;
+  margin-left: 55px;
+  background-color: #1b1b1b;
+}
+body main .manage-sound-table {
+  padding: 25px 20px;
+}
+body main .manage-sound-table .mesa-select {
+  width: 100%;
+  height: calc(100svh - 100px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+body main .manage-sound-table .mesa-select > * {
+  margin: 10px 0;
+}
+body main .manage-sound-table .header-manage-table {
+  width: 100%;
+}
+body main .manage-sound-table .header-manage-table .primary-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+body main .manage-sound-table .header-manage-table .secundary-header {
+  display: flex;
+  justify-content: space-between;
+}
+body main .manage-sound-table .sound-list-scroll {
+  width: 100%;
+  margin-top: 20px;
+  padding-right: 5px;
+  height: calc(100svh - 180px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+body main .manage-sound-table .sound-list-scroll::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 500000000000000000px;
+}
+body main .manage-sound-table .sound-list-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+body main .manage-sound-table .sound-list-scroll::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid #1b1b1b;
+  border-radius: 500000000000000000px;
+}
+body main .manage-sound-table .sound-list-scroll .sound-list-container {
+  width: 100%;
+}
+body main .manage-sound-table .sound-list-scroll .sound-list-container .sound {
+  width: calc(100% - 20px);
+  padding: 10px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+body main .manage-sound-table .sound-list-scroll .sound-list-container .sound > * {
+  margin-right: 15px;
+}
+body main .manage-sound-table .sound-list-scroll .sound-list-container .sound img {
+  width: 100px;
+  border-radius: 50%;
+}
+body main .manage-sound-table .sound-list-scroll .sound-list-container .sound .sound-name {
+  min-width: 200px;
+  font-weight: bold;
+  font-size: 18px;
+  display: block;
+}
+body main .manage-sound-table .sound-list-scroll .sound-list-container .sound .sound-name .sound-group {
+  background-color: #fff;
+  color: #333;
+  border-radius: 5px;
+  padding: 0 5px;
+  font-size: 12px;
+  width: min-content;
+}
+body main .manage-sound-table .sound-list-scroll .sound-list-container .sound a {
+  display: block;
+  color: #409eff;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  padding: 0 10px;
+}
+body main .manage-sound-table .sound-list-scroll .sound-list-container .sound a .el-icon {
+  font-size: 20px;
+  margin: 0;
+}
+body main .manage-sound-table .sound-list-scroll .sound-list-container .sound a .el-icon svg {
+  margin: 0px;
+}
+body main .play-page {
+  width: calc(100% - 40px);
+  height: calc(100svh - 80px);
+  padding: 25px 20px;
+}
+body main .play-page .table-list-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+@media (max-width: 1200px) {
+  body main .play-page .table-list-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (max-width: 992px) {
+  body main .play-page .table-list-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 767px) {
+  body main .play-page .table-list-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 575px) {
+  body main .play-page .table-list-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+body main .play-page .table-list-container .table-box {
+  width: 100%;
+  aspect-ratio: 1/1.1;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  filter: drop-shadow(0 0 10px #000);
+  transition: all 0.3s ease;
+}
+body main .play-page .table-list-container .table-box.table00 {
+  background-image: url(../images/mesa-00.png);
+}
+body main .play-page .table-list-container .table-box.table01 {
+  background-image: url(../images/mesa-01.png);
+}
+body main .play-page .table-list-container .table-box.table02 {
+  background-image: url(../images/mesa-02.png);
+}
+body main .play-page .table-list-container .table-box:hover {
+  cursor: pointer;
+  filter: drop-shadow(0 0 50px #000) brightness(120%) contrast(120%);
+  transform: scale(1.03);
+}
+body main .play-page .table-list-container .table-box:hover .table-name {
+  letter-spacing: 3px;
+}
+body main .play-page .table-list-container .table-box .table-name {
+  width: calc(100% - 50px);
+  text-align: center;
+  line-height: 1;
+  font-family: 'dragon';
+  font-size: 30px;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  text-shadow: 2px 0 #2b0000, -2px 0 #2b0000, 0 2px #2b0000, 0 -2px #2b0000, 1px 1px #2b0000, -1px -1px #2b0000, 1px -1px #2b0000, -1px 1px #2b0000;
+}
+body main .sound-table-main {
+  width: 100%;
+  height: calc(100svh - 30px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+body main .sound-table-main .sound-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  margin-top: 25px;
+  padding: 0 20px;
+}
+body main .sound-table-main .sound-table-scene {
+  margin-top: 10px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-shrink: 0;
+}
+body main .sound-table-main .sound-table-scene.recording {
+  justify-content: center !important;
+}
+body main .sound-table-main .sound-table-scene .record-signal {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #971111;
+  margin-right: 10px;
+  animation: recordingMode 0.5s infinite alternate;
+}
+body main .sound-table-main .sound-table-scene .time-display {
+  margin-right: 10px;
+}
+@keyframes recordingMode {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+body main .sound-table-main .scenes-list {
+  margin-top: 10px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+body main .sound-table-main .scenes-list .scene-content {
+  border-radius: 50000000000000000px;
+  background-color: #0f0f0f;
+  transition: all 0.3s ease;
+  position: relative;
+  margin-right: 5px;
+}
+body main .sound-table-main .scenes-list .scene-content .scene-object {
+  width: 100%;
+  padding: 3px 10px;
+  cursor: pointer !important;
+}
+body main .sound-table-main .scenes-list .scene-content .scene-object .scene-name {
+  margin-left: 5px;
+}
+body main .sound-table-main .scenes-list .scene-content:hover {
+  background-color: #f0f0f0;
+  color: #0f0f0f;
+}
+body main .sound-table-main .scenes-list .scene-content .optins-content {
+  z-index: 99;
+  position: absolute;
+  top: -2px;
+  left: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding-left: 5px;
+}
+body main .sound-table-main .sound-table-sound-list-content {
+  margin-top: 10px;
+  padding: 10px 20px 0 20px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+body main .sound-table-main .sound-table-sound-list-content::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 500000000000000000px;
+}
+body main .sound-table-main .sound-table-sound-list-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+body main .sound-table-main .sound-table-sound-list-content::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid #1b1b1b;
+  border-radius: 500000000000000000px;
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container {
+  width: 100%;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 30px;
+}
+@media (max-width: 1200px) {
+  body main .sound-table-main .sound-table-sound-list-content .sound-list-container {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+@media (max-width: 992px) {
+  body main .sound-table-main .sound-table-sound-list-content .sound-list-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (max-width: 767px) {
+  body main .sound-table-main .sound-table-sound-list-content .sound-list-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 575px) {
+  body main .sound-table-main .sound-table-sound-list-content .sound-list-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container .sound-button {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1;
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container .sound-button.disabled {
+  filter: saturate(0%) brightness(50%);
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container .sound-button:active {
+  cursor: grab;
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container .sound-button .blackbox-options {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container .sound-button .sound-button-content {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  background-color: #fff;
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container .sound-button .sound-button-content .option-buttons {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container .sound-button .sound-button-content .option-buttons .option-btn {
+  position: absolute;
+  aspect-ratio: 1/1;
+  width: 30px;
+  height: 30px;
+  padding: 10px;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  transition: all 0.3s ease;
+  top: calc(50% - 26px);
+  left: calc(50% - 26px);
+  z-index: 99999;
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container .sound-button .sound-button-content .option-buttons .option-btn .el-icon {
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(1) {
+  transform: rotate(25deg) translate(120px);
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(2) {
+  transform: rotate(115deg) translate(120px);
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(3) {
+  transform: rotate(205deg) translate(120px);
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(4) {
+  transform: rotate(295deg) translate(120px);
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(5) {
+  transform: rotate(385deg) translate(120px);
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container .sound-button .sound-button-content .sound-image {
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  aspect-ratio: 1/1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  margin-left: 5px;
+  margin-top: 5px;
+  position: absolute;
+}
+body main .sound-table-main .sound-table-sound-list-content .sound-list-container .sound-button .sound-button-content .sound-name {
+  position: absolute;
+  background-color: #fff;
+  transform: translate(-50%, -50%);
+  bottom: -15px;
+  left: 50%;
+  color: #000;
+  white-space: nowrap;
+  padding: 0 15px;
+  border-radius: 5555555555555555555555px;
+  transition: all 0.3s ease;
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container {
+  width: 100%;
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 20px;
+}
+@media (max-width: 1200px) {
+  body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+@media (max-width: 992px) {
+  body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (max-width: 767px) {
+  body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 575px) {
+  body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .group-name {
+  grid-column: 1/9;
+  font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@media (max-width: 1200px) {
+  body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .group-name {
+    grid-column: 1/7;
+  }
+}
+@media (max-width: 992px) {
+  body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .group-name {
+    grid-column: 1/5;
+  }
+}
+@media (max-width: 767px) {
+  body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .group-name {
+    grid-column: 1/3;
+  }
+}
+@media (max-width: 575px) {
+  body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .group-name {
+    grid-column: 1/2;
+  }
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .group-name hr {
+  width: 100%;
+  height: 0px;
+  margin-left: 10px;
+  border: 1px solid #333;
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1;
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button.disabled {
+  filter: saturate(0%) brightness(50%);
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button:active {
+  cursor: grab;
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .blackbox-options {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  background-color: #fff;
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn {
+  position: absolute;
+  aspect-ratio: 1/1;
+  width: 30px;
+  height: 30px;
+  padding: 10px;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  transition: all 0.3s ease;
+  top: calc(50% - 26px);
+  left: calc(50% - 26px);
+  z-index: 99999;
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn .el-icon {
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(1) {
+  transform: rotate(25deg) translate(120px);
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(2) {
+  transform: rotate(115deg) translate(120px);
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(3) {
+  transform: rotate(205deg) translate(120px);
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(4) {
+  transform: rotate(295deg) translate(120px);
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(5) {
+  transform: rotate(385deg) translate(120px);
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .sound-image {
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  aspect-ratio: 1/1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  margin-left: 5px;
+  margin-top: 5px;
+  position: absolute;
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .sound-name {
+  position: absolute;
+  background-color: #fff;
+  transform: translate(-50%, -50%);
+  bottom: -15px;
+  left: 50%;
+  color: #000;
+  white-space: nowrap;
+  padding: 0 15px;
+  border-radius: 5555555555555555555555px;
+  transition: all 0.3s ease;
+}
+body main .sound-table-main .sound-control-panel {
+  flex-shrink: 0;
+  width: 100%;
+  height: 140px;
+  background-color: #111;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+body main .sound-table-main .sound-control-panel .scene-audios-container {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: nowrap;
+  background-color: #fff;
+  border: 2px solid #fff;
+  padding-top: 20px;
+  border-radius: 5000000000000000000px;
+  position: relative;
+}
+body main .sound-table-main .sound-control-panel .scene-audios-container .scene-name {
+  position: absolute;
+  color: #000;
+  font-size: 15px;
+  font-weight: bold;
+  transform: translateX(-50%);
+  top: 0;
+  left: 50%;
+}
+body main .sound-table-main .sound-control-panel .scene-audios-container .control-audio-content {
+  margin: 0 10px !important;
+}
+body main .sound-table-main .sound-control-panel .control-audio-content {
+  background-color: #333;
+  width: 100px;
+  height: 100px;
+  margin: 20px 10px 0 10px;
+  border-radius: 50%;
+  position: relative;
+}
+body main .sound-table-main .sound-control-panel .control-audio-content:hover .control-audio {
+  bottom: 50px;
+  visibility: visible;
+  opacity: 1;
+}
+body main .sound-table-main .sound-control-panel .control-audio-content .audio-infos {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 1;
+  white-space: pre-wrap;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  z-index: 99999;
+  text-shadow: 2px 0 #2b0000, -2px 0 #2b0000, 0 2px #2b0000, 0 -2px #2b0000, 1px 1px #2b0000, -1px -1px #2b0000, 1px -1px #2b0000, -1px 1px #2b0000;
+}
+body main .sound-table-main .sound-control-panel .control-audio-content .audio-infos .el-progress {
+  position: absolute !important;
+  transform: translate(-50%, -50%) !important;
+  top: 50% !important;
+  left: 50% !important;
+}
+body main .sound-table-main .sound-control-panel .control-audio-content .audio-infos .el-progress .el-progress-circle {
+  width: 100px !important;
+  height: 100px !important;
+}
+body main .sound-table-main .sound-control-panel .control-audio-content .audio-infos span {
+  position: absolute;
+  max-width: 100%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
+body main .sound-table-main .sound-control-panel .control-audio-content .control-audio {
+  width: calc(100% - 20px);
+  padding: 20px 10px 80px 10px;
+  border-radius: 20px 20px 5px 5px;
+  position: absolute;
+  background-color: #333;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  transform: translateX(-50%);
+  left: 50%;
+  transition: all 0.3s ease;
+  bottom: 0px;
+  visibility: hidden;
+  opacity: 0;
+  bottom: 20px;
+}
+body main .sound-table-main .sound-control-panel .control-audio-content .control-audio .control-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+}
+body main .sound-table-main .sound-control-panel .control-audio-content .control-audio .control-buttons button {
+  margin: 10px 0 !important;
+}
+body main .sound-table-main .timeline {
+  margin: 5px 20px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  padding: 24px 10px 5px 10px;
+  width: calc(100% - 60px);
+  position: relative;
+}
+body main .sound-table-main .timeline .layer {
+  border-top: 1px solid #fff;
+  border-left: 5px solid #fff;
+  border-bottom: 1px solid #fff;
+  border-right: 5px solid #fff;
+  border-radius: 5px;
+  padding: 3px;
+  margin: 4px 0;
+  overflow: hidden;
+}
+body main .sound-table-main .timeline .seconds-marks {
+  position: absolute;
+  top: 2px;
+  width: calc(100% - 20px);
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #555;
+  line-height: 1;
+}
+body main .sound-table-main .timeline .seconds-marks > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(-20px);
+  opacity: 0;
+}
