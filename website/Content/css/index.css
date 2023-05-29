@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #2f3235;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-family: sans-serif;
+}
+body a {
+  text-decoration: none;
+  color: #db292f;
+}
+body header {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 20px 0;
+}
+body header img {
+  width: 150px;
+  margin-right: 20px;
+}
+body header .title {
+  font-size: 50px;
+  color: #db292f;
+  font-weight: bold;
+}
+body main {
+  max-width: 720px;
+  margin-top: 40px;
+  color: #fff;
+}
+body main .git-link {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+body main .git-link img {
+  width: 20px;
+  filter: invert(100%);
+  margin-right: 5px;
+}

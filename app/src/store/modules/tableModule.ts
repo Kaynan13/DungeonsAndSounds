@@ -96,6 +96,9 @@ export default class TableModule extends VuexModule {
 
                 let result = !data || data.length <= 0 ? [] : JSON.parse(data);
 
+                while (typeof result == 'string') {
+                    result = JSON.parse(result);
+                }
                 // result.sounds.filter((item: any) => !this.tables[table]._id == item._videoId)
 
                 resolve(result);
@@ -108,7 +111,7 @@ export default class TableModule extends VuexModule {
         return new Promise((resolve, reject) => {
             let tableName = data.table.includes('.json') ? data.table : `${data.table}.json`;
             let model: Table = JSON.parse(fs.readFileSync(`${TableModule.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));
-
+                        
             data.sound.id = model.sounds.length > 0 ? model.sounds[model.sounds.length - 1].id! + 1 : 1;
             model.sounds.push(data.sound)
 
