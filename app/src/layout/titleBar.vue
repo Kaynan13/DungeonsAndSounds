@@ -3,7 +3,7 @@
 
         <div class="left-content">
             <!-- <img src="" alt=""> -->
-            Dungeons and Sounds
+            Dungeons and Sounds <span class="version">2.5.5</span>
         </div>
 
         <div class="right-content">

@@ -32,6 +32,12 @@ body .title-bar .left-content {
   font-size: 15px;
   letter-spacing: 1px;
 }
+body .title-bar .left-content .version {
+  color: #555;
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 10px;
+}
 body .title-bar .right-content {
   height: 100%;
   -webkit-app-region: no-drag;
