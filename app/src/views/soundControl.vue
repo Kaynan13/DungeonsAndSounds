@@ -105,8 +105,6 @@ import AudioType from '../store/entity/audio'
 import status from '../store/enums/statusEnum';
 
 export default {
-    props: {},
-
     emit: ['change'],
 
     setup(props, { emit }) {

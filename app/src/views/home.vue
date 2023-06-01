@@ -1,55 +1,65 @@
 <template>
-    <div class="play-page" v-if="tableSelected == ''">
-        <div class="table-list-container">
-            <div :class="['table-box', returnTableClass()]" v-for="item in tables" @click="tableSelected = item.fileName;">                
-                <div class="table-name">                
-                    {{ item.name }}
-                </div>
-            </div>
-        </div>
-        
-    </div>
-        <soundTable v-else :tableSelected="tableSelected" @back="tableSelected = ''"></soundTable>        
+    <!-- Home and tables manager -->
+    <tableList ref="tableListRef" v-if="tableSelected == ''" @create="opentableCreate" @select="selectTable" />
+    <tableCreate ref="tableCreateRef" v-if="tableSelected == ''" @created="updateList" />
+
+    <!-- Sounds and scenes manager -->
+    <soundTable v-if="tableSelected !== ''" :tableSelected="tableSelected" @back="tableSelected = ''" />
 </template>
 
 <script lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 import { useStore } from 'vuex'
 
-import soundTable from './soundTable.vue';
-import { ipcRenderer } from 'electron';
-import { tableActions } from '../store/enums/tableEnum';
+import soundTable from './soundTable.vue'
+import tableCreate from '../components/tableCreate.vue'
+import tableList from '../components/tableList.vue'
 
 export default {
     components: {
         soundTable,
+        tableCreate,
+        tableList
     },
 
-    setup() {        
-        const store = useStore();
-        const mainFolder = ref(`${__dirname.substring(0, __dirname.indexOf('resources') + 10).replaceAll(/\\/g, "/")}`);
+    setup() {
+        const store = useStore()
 
-        const tableSelected = ref('');
+        const tableSelected = ref('')
 
-        const tables = ref<Array<any>>([]);
-
-        const getTables = () => {
-            store.dispatch(tableActions.GET_TABLES).then(res => {
-                tables.value = res;
-            })
+        const selectTable = (table: string) => {
+            console.log(table)
+            tableSelected.value = table
         }
 
-        getTables();
+        // const getTables = () => {
+        //     store.dispatch(tableActions.GET_TABLES).then(res => {
+        //         tables.value = res;
+        //     })
+        // }
 
-        const returnTableClass = () => {
-            return `table0${Math.round(Math.random()*2)}`;
+        const tableListRef = ref()
+
+        const updateList = (table: string) => {
+            tableListRef.value.getTables()
+
+            tableSelected.value = `${table}.json`
+        }
+
+        const tableCreateRef = ref()
+
+        const opentableCreate = () => {
+            tableCreateRef.value.openTableCreate()
         }
 
         return {
-            tables,
             tableSelected,
+            tableListRef,
+            tableCreateRef,
 
-            returnTableClass,
+            selectTable,
+            updateList,
+            opentableCreate,
         }
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="sound-table-main">
-        <div class="sound-table-header">
+        <!-- <div class="sound-table-header">
             <el-button @click="backToTableList">
                 <el-icon>
                     <Back />
@@ -9,11 +9,13 @@
                 Voltar as Mesas
             </el-button>
 
-            <el-radio-group v-model="groupSelected" @change="selectGroup">
+            <el-radio-group v-model="groupSelected" @change="selectGroup" small>
                 <el-radio-button :label="null">Todos</el-radio-button>
                 <el-radio-button v-for="group in soundsGroups" :label="group.groupName" />
             </el-radio-group>
-        </div>
+        </div> -->
+
+        <soundTableHeader :soundsGroups="groupList" @back="backToTableList" @selectedGroup="selectGroup" />
 
         <!-- scene recording component -->
         <div :class="['sound-table-scene', recording != 0 ? 'recording' : '']">
@@ -83,79 +85,50 @@
 
         <div :class="['sound-table-sound-list-content',
             recording != 0 ? 'recording' : '',]">
-            <div class="sound-list-container" v-if="groupSelected">
-                <div :class="['sound-button', sound.loaded ? '': 'disabled']" v-for="(sound, index) in soundList" :key="index"
-                    @click="playAudio(sound._videoId, sound.loaded)" @mousedown="triggerHoldEvent(sound)"
-                    @mouseup="sound.configMode = false">
+
+            <!-- <div class="sound-list-container" v-if="groupSelected">
+                <div :class="['sound-button', sound.loaded ? '' : 'disabled']" v-for="(sound, index) in soundList"
+                    :key="index" @click="playAudio(sound._videoId, sound.loaded)">
                     <div class="blackbox-options" v-if="sound.configMode" @mouseup="sound.configMode = false">
                     </div>
-                    <div class="sound-button-content">
-                        <div class="option-buttons" v-if="sound.configMode">
-
-                            <div class="option-btn" type="primary" circle @mouseup="triggerUpEvent(sound)">
-                                <el-icon>
-                                    <Refresh />
-                                </el-icon>
-                            </div>
-                            <!-- <div class="option-btn" type="primary" circle @mouseup="triggerUpEvent(sound)">
-                                <el-icon>
-                                    <Refresh />
-                                </el-icon>
-                            </div>
-                            <div class="option-btn" type="primary" circle @mouseup="triggerUpEvent(sound)">
-                                <el-icon>
-                                    <Refresh />
-                                </el-icon>
-                            </div>
-                            <div class="option-btn" type="primary" circle @mouseup="triggerUpEvent(sound)">
-                                <el-icon>
-                                    <Refresh />
-                                </el-icon>
-                            </div> -->
-
-                        </div>
+                    <div class="sound-button-content">                        
                         <div class="sound-image" :style="{ 'background-image': `url(${sound.imageUrl})` }"></div>
                         <div class="sound-name">{{ sound.name }}</div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="all-sound-list-container" v-if="!groupSelected">
                 <div class="group-container" v-for="group in soundsGroups">
+
                     <div class="group-name">
                         {{ group.groupName }}
                         <hr />
                     </div>
-                    <div :class="['sound-button', sound.loaded ? '': 'disabled']" v-for="(sound, index) in group.soundList" :key="index"
-                        @click="playAudio(sound._videoId, sound.loaded)" @mousedown="triggerHoldEvent(sound)"
-                        @mouseup="sound.configMode = false">
-                        <div class="blackbox-options" v-if="sound.configMode" @mouseup="sound.configMode = false">
-                        </div>
+
+                    <div :class="['sound-button', sound.loaded ? '' : 'disabled']" v-for="(sound, index) in group.soundList"
+                        :key="index" @click="playAudio(sound._videoId, sound.loaded)" @mouseover="triggerHoldEvent(sound)"
+                        @mouseleave="triggerLeaveEvent(sound)">
                         <div class="sound-button-content">
-                            <div class="option-buttons" v-if="sound.configMode">
 
-                                <div class="option-btn" type="primary" circle @mouseup="triggerUpEvent(sound)">
-                                    <el-icon>
-                                        <Refresh />
-                                    </el-icon>
+                            <!-- <Transition name="fade">
+                                <div class="option-buttons" v-show="sound.configMode">
+
+                                    <el-button type="primary" plain circle class="option-btn"
+                                        @mouseup="triggerUpEvent(sound)">
+                                        <el-icon>
+                                            <Edit />
+                                        </el-icon>
+                                    </el-button>
+                                    <el-button type="danger" plain circle class="option-btn"
+                                        @mouseup="triggerUpEvent(sound)">
+                                        <el-icon>
+                                            <Delete />
+                                        </el-icon>
+                                    </el-button>
+
                                 </div>
-                                <!-- <div class="option-btn" type="primary" circle @mouseup="triggerUpEvent(sound)">
-                                <el-icon>
-                                    <Refresh />
-                                </el-icon>
-                            </div>
-                            <div class="option-btn" type="primary" circle @mouseup="triggerUpEvent(sound)">
-                                <el-icon>
-                                    <Refresh />
-                                </el-icon>
-                            </div>
-                            <div class="option-btn" type="primary" circle @mouseup="triggerUpEvent(sound)">
-                                <el-icon>
-                                    <Refresh />
-                                </el-icon>
-                            </div> -->
-
-                            </div>
+                            </Transition> -->
                             <div class="sound-image" :style="{ 'background-image': `url(${sound.imageUrl})` }"></div>
                             <div class="sound-name">{{ sound.name }}</div>
                         </div>
@@ -170,23 +143,27 @@
 </template>
 
 
-<script>
+<script lang="ts">
 import { ref } from 'vue';
 
 import AudioType from '../store/entity/audio'
 import status from '../store/enums/statusEnum'
 import fs from 'fs'
 
-import soundControl from './soundControl.vue';
-import timelineEditor from '../components/sceneTimeline.vue';
-import { ElLoading, ElMessageBox, ElMessage } from 'element-plus';
+import soundControl from './soundControl.vue'
+import timelineEditor from '../components/sceneTimeline.vue'
+import { ElMessageBox, ElMessage } from 'element-plus'
 
 import { useStore } from 'vuex'
 
-import { tableActions } from '../store/enums/tableEnum';
+import { tableActions } from '../store/enums/tableEnum'
+
+import soundTableHeader from '../components/soundTable/header.vue'
+import Sound from '../store/entity/sound';
 
 export default {
     components: {
+        soundTableHeader,
         soundControl,
         timelineEditor
     },
@@ -220,56 +197,62 @@ export default {
         const soundControlRef = ref();
         const soundLoadingCount = ref([]);
 
-        const audioList = ref([]);
+        const audioList = ref<Array<any>>([]);
 
         const rawTable = ref();
-        const scenesList = ref([]);
-        const soundList = ref([]);
-        const soundsGroups = ref([]);
+        const scenesList = ref<Array<any>>([]);
+        const soundList = ref<Array<any>>([]);
+        const allSoundsGroups = ref<Array<any>>([]);
+        const soundsGroups = ref<Array<any>>([]);
+        const groupList = ref<Array<string>>([])
+
         const getSoundsFromTable = () => {
-            if (!(props.tableSelected == '')) {
-                console.log(store);
+            if (props.tableSelected !== '') {
                 store.dispatch(tableActions.GET_SOUNDS, props.tableSelected).then(res => {
                     if (!res || res.length <= 0) {
                         soundList.value = []
-                        loading.close()
                     } else {
                         rawTable.value = res;
                         scenesList.value = [...rawTable.value.scenes];
                         let allSounds = rawTable.value.sounds;
 
-                        allSounds.filter(async item => {
+                        allSounds.filter(async (item: any) => {
                             let indexStart = item.soundUrl.indexOf('?v=') + 3
                             item._videoId = item.soundUrl.substring(indexStart, item.soundUrl.length).split('&')[0]
                             item.configMode = false
 
                             let audioElement = new Audio(`http://localhost:9000/getAudio?id=${item._videoId}`)
-                            audioList.value.push(new AudioType(item._videoId, audioElement, 50, item, status.notStarted, false))
+                            audioList.value.push(new AudioType(item._videoId, audioElement, 50, item, status.notStarted))
 
-                            soundLoadingCount.value++
                             audioElement.addEventListener("loadeddata", () => {
                                 console.log(soundList.value);
                                 soundList.value.filter(lbda => {
-                                    if(lbda._videoId == item._videoId){
+                                    if (lbda._videoId == item._videoId) {
                                         lbda.loaded = true;
                                     }
                                 });
-                                
-                                soundsGroups.value.filter(group => {
-                                    group.soundList.filter(sound => {
-                                        if(sound._videoId == item._videoId){
-                                            sound.loaded = true;                                            
+
+                                allSoundsGroups.value.filter((group: any) => {
+                                    group.soundList.filter((sound: any) => {
+                                        if (sound._videoId == item._videoId) {
+                                            sound.loaded = true;
                                         }
                                     })
                                 })
                             });
-                        })  
+                        })
 
-                        soundsGroups.value = allSounds.filter((x, i) => allSounds.findIndex(y => y.group == x.group) === i).map((item) => {
+                        allSoundsGroups.value = allSounds.filter((x, i) => allSounds.findIndex(y => y.group == x.group) === i).map((item) => {
                             return { groupName: item.group, soundList: allSounds.filter(sound => item.group == sound.group) }
                         })
 
-                        selectGroup(groupSelected.value);
+                        groupList.value = allSoundsGroups.value.filter((item: any) => {
+                            return item.groupName;
+                        })
+
+                        soundsGroups.value = allSoundsGroups.value
+
+                        selectGroup(null);
 
                     }
                 })
@@ -296,9 +279,11 @@ export default {
         }
 
         const groupSelected = ref(null);
-        const selectGroup = (group) => {
-            if (group)
-                soundList.value = soundsGroups.value.find((item) => item.groupName == group).soundList
+        const selectGroup = (group: string | null) => {
+            // if (group)
+            //     soundList.value = soundsGroups.value.find((item) => item.groupName == group).soundList
+
+            soundsGroups.value = allSoundsGroups.value.filter((item: any) => !group || item.groupName == group)
         }
 
         const controlVisible = ref(false)
@@ -312,11 +297,22 @@ export default {
                 recordData(evt.currentAudio, evt.change)
         }
 
-        const triggerHoldEvent = (sound) => {
+        const triggerHoldEvent = (sound: any) => {
             if (sound.loaded) {
-                if (!sound.configMode)
+                if (!sound.configMode){
                     sound.configModeTimeOut = setTimeout(() => {
                         sound.configMode = true
+                    }, 500)
+                }else{
+                    clearTimeout(sound.configModeTimeOut)
+                }
+            }
+        }
+
+        const triggerLeaveEvent = (sound: any) => {
+            if (sound.loaded) {                
+                    sound.configModeTimeOut = setTimeout(() => {
+                        sound.configMode = false
                     }, 500)
             }
         }
@@ -523,6 +519,7 @@ export default {
             soundList,
             scenesList,
             soundsGroups,
+            groupList,
             groupSelected,
             soundControlRef,
             controlVisible,
@@ -534,6 +531,7 @@ export default {
             playAudio,
             changeControl,
             triggerHoldEvent,
+            triggerLeaveEvent,
             triggerUpEvent,
 
             // scene record functions

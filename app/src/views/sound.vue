@@ -87,7 +87,7 @@
         </div>
 
         <!-- FORMULARIO DE CRIAR SONS -->
-        <el-dialog v-model="modalToggle" title="Adicionar Som" width="30%">
+        <el-dialog v-model="modalToggle" title="Adicionar Som">
 
             <el-form label-width="100px" style="max-width: 460px" ref="ruleFormRef" :model="modelSound" :rules="rules">
                 <el-form-item label="Grupo" prop="group">
@@ -188,7 +188,7 @@ export default {
                     }
 
                     store.dispatch(tableActions.CREATE_TABLE, model).then(res => {
-                        resolve(res);
+                        resolve(res);                        
                     })
                 } catch (err) {
                     console.error(err)
@@ -221,6 +221,7 @@ export default {
                     }
                 ).then(() => {
                     let tableName = evt.replaceAll(' ', '-');
+                    debugger;
                     createNewConfig(tableName).then(res => {
                         if (res) {
                             ElMessage({
@@ -274,6 +275,7 @@ export default {
         const addingSoundToTable = async (formEl: FormInstance) => {
             if (!formEl) return
 
+            debugger;
             await formEl.validate(valid => {
                 if (valid) {       
                     if (modelSound.value.id) {
