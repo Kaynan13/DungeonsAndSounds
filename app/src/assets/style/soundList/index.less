@@ -1,0 +1,312 @@
+@xl: ~"(min-width: 1200px)";
+@lg: ~"(max-width: 1200px)";
+@md: ~"(max-width: 992px)";
+@sm: ~"(max-width: 767px)";
+@xs: ~"(max-width: 575px)";
+
+@defaultRed: #971111;
+
+.sound-list-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .sound-table-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0;
+        margin-top: 25px;
+        padding: 0 20px;
+        flex-shrink: 0;
+        flex-grow: 0;
+
+        .sound-list-title {
+            display: flex;
+            flex-wrap: nowrap;
+            color: #555;
+
+            .table-name {
+                font-weight: bold;
+                color: #fff;
+                margin-left: 10px;
+            }
+        }
+    }
+
+    .sound-table-scene {
+        margin-top: 10px;
+        padding: 0 20px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        &.recording {
+            justify-content: center !important;
+        }
+
+        flex-shrink: 0;
+
+        .record-signal {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: @defaultRed;
+            margin-right: 10px;
+            animation: recordingMode 0.5s infinite alternate;
+        }
+
+        .time-display {
+            margin-right: 10px;
+        }
+
+        @keyframes recordingMode {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    }
+
+    .scenes-list {
+        margin-top: 10px;
+        padding: 0 20px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        .scene-content {
+            border-radius: 50000000000000000px;
+            background-color: #0f0f0f;
+            transition: all 0.3s ease;
+            position: relative;
+            margin-right: 5px;
+
+            .scene-object {
+                width: 100%;
+                padding: 3px 10px;
+                cursor: pointer !important;
+
+                .scene-name {
+                    margin-left: 5px;
+                }
+            }
+
+            &:hover {
+                background-color: #f0f0f0;
+                color: #0f0f0f;
+            }
+
+            .optins-content {
+                z-index: 99;
+                position: absolute;
+                top: -2px;
+                left: 100%;
+                display: flex;
+                flex-wrap: nowrap;
+                align-items: center;
+                padding-left: 5px;
+            }
+        }
+    }
+
+    .sound-list-container {
+        margin-top: 10px;
+        padding: 10px 20px 0 20px;
+        height: 100%;
+        flex-shrink: 1;
+        flex-grow: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex-grow: 1;
+        flex-shrink: 1;
+
+        &::-webkit-scrollbar {
+            width: 10px;
+            border-radius: 500000000000000000px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: darkgrey;
+            outline: 1px solid #1b1b1b;
+            border-radius: 500000000000000000px;
+        }
+
+        .sound-list {
+            width: 100%;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 20px;
+
+            @media @lg {
+                grid-template-columns: repeat(6, 1fr);
+            }
+
+            @media @md {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            @media @sm {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            @media @xs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .add-sound-button {
+                width: 100%;
+                height: 100%;
+                aspect-ratio: 1/1;
+                border-radius: 50%;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: all 0.3s ease;
+                font-size: 18px;
+                opacity: 0.3;
+
+                .el-icon {
+                    font-size: 30px;
+                    margin-bottom: 10px;
+                }
+
+                &:hover {
+                    cursor: pointer;
+                    filter: drop-shadow(0px 0px 20px #fff) drop-shadow(0px 0px 20px #fff);
+                    box-shadow: 0 0 50px rgba(255, 255, 255, 0.05);
+                    transform: scale(1.05);
+                    opacity: 1;
+                }
+            }
+
+            .sound-button {
+                width: 100%;
+                height: 100%;
+                aspect-ratio: 1/1;
+                position: relative;
+                filter: drop-shadow(0 0 10px #000);
+                transition: all 0.3s ease;
+
+                &:not(.inative):hover {
+                    transform: scale(1.1);
+                    filter: drop-shadow(0 0 20px #000);
+                    cursor: pointer;
+                }
+
+                &.inative {
+                    filter: saturate(0%) contrast(50%) brightness(30%);
+                }
+
+                &.config {
+                    .sound-infos {
+                        height: ~"calc(100% - 20px)" !important;
+                        bottom: 0 !important;
+
+                        .sound-name {
+                            margin-top: 20px !important;
+                        }
+
+                        .sound-options {
+                            display: none;
+                        }
+                    }
+                }
+
+                .sound-image {
+                    width: ~"calc(100% - 16px)";
+                    aspect-ratio: 1/1;
+                    border-radius: 50%;
+                    border: 8px solid #333;
+                    box-shadow: inset 0 0 50px 10px #000000;
+                    background-position: center;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                }
+
+                .sound-content {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+
+                    .sound-group {
+                        background-color: #efefef;
+                        color: #000;
+                        padding: 3px 5px;
+                        border-radius: 50000000000px;
+                        width: min-content;
+                        white-space: nowrap;
+                        line-height: 1;
+                        font-size: 12px;
+                        font-weight: bold;
+                        position: absolute;
+                        left: 5%;
+                        top: 5%;
+                        z-index: 9;
+                    }
+
+                    .sound-infos-content {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                        overflow: hidden;
+
+                        .sound-infos {
+                            width: ~"calc(100% - 20px)";
+                            height: ~"calc(50% - 10px)";
+                            position: absolute;
+                            transform: translateX(-50%);
+                            left: 50%;
+                            bottom: -15%;
+                            background-color: #333;
+                            padding: 10px;
+                            box-shadow: 0 0px 10px #000000;
+                            border-radius: 50%;
+                            line-height: 1;
+                            transition: all 0.3s ease;
+
+                            .sound-name {
+                                width: ~"100% - 10px";
+                                max-height: 26px;
+                                padding: 5px;
+                                text-align: center;
+                                font-size: 15px;
+                            }
+
+                            .options-button {
+                                position: absolute;
+                                transform: translateX(-50%);
+                                top: ~"calc(50% + 5px)";
+                                left: 50%;                                
+                            }
+
+                            .sound-options {
+                                margin-top: 50px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

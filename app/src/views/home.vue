@@ -4,7 +4,9 @@
     <tableCreate ref="tableCreateRef" v-if="tableSelected == ''" @created="updateList" />
 
     <!-- Sounds and scenes manager -->
-    <soundTable v-if="tableSelected !== ''" :tableSelected="tableSelected" @back="tableSelected = ''" />
+    <!-- <soundTable v-if="tableSelected !== ''" :tableSelected="tableSelected" @back="tableSelected = ''" /> -->
+    <soundList v-if="tableSelected !== ''" :tableSelected="tableSelected" @back="tableSelected = ''" />
+    
 </template>
 
 <script lang="ts">
@@ -14,12 +16,14 @@ import { useStore } from 'vuex'
 import soundTable from './soundTable.vue'
 import tableCreate from '../components/tableCreate.vue'
 import tableList from '../components/tableList.vue'
+import soundList from '../components/soundTable/soundList.vue'
 
 export default {
     components: {
         soundTable,
         tableCreate,
-        tableList
+        tableList,
+        soundList
     },
 
     setup() {

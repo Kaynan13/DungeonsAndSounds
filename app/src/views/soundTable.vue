@@ -111,7 +111,7 @@
                         @mouseleave="triggerLeaveEvent(sound)">
                         <div class="sound-button-content">
 
-                            <!-- <Transition name="fade">
+                            <Transition name="grow-fade">
                                 <div class="option-buttons" v-show="sound.configMode">
 
                                     <el-button type="primary" plain circle class="option-btn"
@@ -128,7 +128,7 @@
                                     </el-button>
 
                                 </div>
-                            </Transition> -->
+                            </Transition>
                             <div class="sound-image" :style="{ 'background-image': `url(${sound.imageUrl})` }"></div>
                             <div class="sound-name">{{ sound.name }}</div>
                         </div>
@@ -302,7 +302,7 @@ export default {
                 if (!sound.configMode){
                     sound.configModeTimeOut = setTimeout(() => {
                         sound.configMode = true
-                    }, 500)
+                    }, 300)
                 }else{
                     clearTimeout(sound.configModeTimeOut)
                 }
@@ -313,7 +313,7 @@ export default {
             if (sound.loaded) {                
                     sound.configModeTimeOut = setTimeout(() => {
                         sound.configMode = false
-                    }, 500)
+                    }, 300)
             }
         }
 

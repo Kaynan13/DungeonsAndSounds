@@ -34,5 +34,20 @@ export interface putScene{
 
 export interface deleteScene{
     table: string;
-    soundId: number
+    soundId: number;
+}
+
+export interface postGroup{
+    table: string;
+    group: any;
+}
+
+export interface putGroup{
+    table: string;
+    group: any;
+}
+
+export interface postGroupRange{
+    table: string;
+    groups: Array<any>;
 }

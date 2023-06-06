@@ -8,14 +8,11 @@
                 </el-icon>
             </el-button>
 
-            <!-- <el-radio-group v-model="groupSelected" @change="selectGroup" small>
-                <el-radio-button :label="null">Todos</el-radio-button>
-                <el-radio-button v-for="group in soundsGroups" :label="group.groupName" />
-            </el-radio-group> -->
+            <div class="sound-list-title">Mesa:<div class="table-name"> {{ table }}</div></div>
 
             <el-select v-model="groupSelected" @change="selectGroup" collapse-tags placeholder="Grupo" style="width: 240px">                
                 <el-option label="Todos" :value="null" />
-                <el-option v-for="group in soundsGroups" :label="group.groupName" :value="group.groupName" />
+                <el-option v-for="group in soundsGroups" :label="group.name" :value="group.name" />
             </el-select>
         </div>
 
@@ -23,9 +20,15 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 export default {
     props: {
+        tableSelected: {
+            type: String,
+            default: () => {
+                return ''
+            }
+        },
         soundsGroups: {
             type: Array<any>,
             default: () => {
@@ -44,13 +47,18 @@ export default {
 
         const groupSelected = ref();
 
-        const selectGroup = () => {
+        const selectGroup = () => {            
             emit('selectedGroup', groupSelected.value)
         }
+
+        const table = computed(() => {
+            return props.tableSelected.includes('.') ? props.tableSelected.split('.')[0] : props.tableSelected
+        })
 
         return {
             // data
             groupSelected,
+            table,
 
             // methods
             backToTableList,

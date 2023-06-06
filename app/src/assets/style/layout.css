@@ -45,11 +45,46 @@ body .title-bar .left-content .version {
   font-weight: bold;
   margin-left: 10px;
 }
+body .title-bar .left-content .button-update {
+  font-size: 20px;
+  cursor: pointer;
+}
 body .title-bar .right-content {
   height: 100%;
   -webkit-app-region: no-drag;
 }
-body .title-bar .right-content button {
+body .title-bar .right-content .update-button {
+  border-radius: 0;
+  padding: 0;
+  background: none;
+  padding: 0 20px;
+  font-size: 18px;
+  height: 100%;
+  border-radius: 0 !important;
+  border: none !important;
+  outline: none !important;
+  color: #67C23A;
+  transition: all 0.3s ease;
+  animation: update-jump 0.5s ease infinite alternate;
+}
+body .title-bar .right-content .update-button:hover {
+  animation: none;
+}
+body .title-bar .right-content .update-button:hover {
+  background-color: #67C23A;
+  outline: none !important;
+  box-shadow: none !important;
+  color: #333;
+}
+@keyframes update-jump {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(3px);
+  }
+}
+body .title-bar .right-content .system-button {
   background: none;
   padding: 0 20px;
   height: 100%;
@@ -59,7 +94,7 @@ body .title-bar .right-content button {
   color: #555;
   transition: all 0.3s ease;
 }
-body .title-bar .right-content button:hover {
+body .title-bar .right-content .system-button:hover {
   background-color: #333;
   outline: none !important;
   box-shadow: none !important;
@@ -510,19 +545,34 @@ body main .sound-table-main .sound-table-sound-list-content .all-sound-list-cont
   z-index: 99999;
 }
 body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(1) {
-  transform: rotate(-15deg) translateY(-70px);
+  transform: rotate(-25deg) translateY(-100px);
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(1) .el-icon {
+  transform: rotate(25deg);
 }
 body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(2) {
-  transform: rotate(15deg) translateY(-70px);
+  transform: rotate(25deg) translateY(-100px);
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(2) .el-icon {
+  transform: rotate(-25deg);
 }
 body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(3) {
-  transform: rotate(205deg) translate(80px);
+  transform: rotate(50deg) translateY(-100px);
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(3) .el-icon {
+  transform: rotate(-75deg);
 }
 body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(4) {
-  transform: rotate(295deg) translate(80px);
+  transform: rotate(75deg) translateY(-100px);
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(4) .el-icon {
+  transform: rotate(-75deg);
 }
 body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(5) {
-  transform: rotate(385deg) translate(80px);
+  transform: rotate(100deg) translateY(-100px);
+}
+body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .option-buttons .option-btn:nth-child(5) .el-icon {
+  transform: rotate(-100deg);
 }
 body main .sound-table-main .sound-table-sound-list-content .all-sound-list-container .group-container .sound-button .sound-button-content .sound-image {
   width: calc(100% - 10px);
@@ -703,6 +753,17 @@ body main .sound-table-main .timeline .seconds-marks > div {
 .slide-fade-enter-from,
 .slide-fade-leave-to {
   transform: translateX(-20px);
+  opacity: 0;
+}
+.grow-fade-enter-active {
+  transition: all 0.3s ease;
+}
+.grow-fade-leave-active {
+  transition: all 0.3s ease;
+}
+.grow-fade-enter-from,
+.grow-fade-leave-to {
+  transform: scale(0);
   opacity: 0;
 }
 .fade-enter-active,

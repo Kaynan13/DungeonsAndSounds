@@ -28,7 +28,7 @@ body {
         color: #fff;
     }
 
-    .el-message{
+    .el-message {
         margin-top: 25px;
     }
 
@@ -36,7 +36,7 @@ body {
         stroke: @defaultRed
     }
 
-    .el-dialog{
+    .el-dialog {
         width: ~"calc(100% - 20px)";
         max-width: 550px;
     }
@@ -70,13 +70,54 @@ body {
                 font-weight: bold;
                 margin-left: 10px;
             }
+
+            .button-update{
+                font-size: 20px;
+                cursor: pointer;
+            }
         }
 
         .right-content {
             height: 100%;
             -webkit-app-region: no-drag;
 
-            button {
+            .update-button{
+                border-radius: 0;
+                padding: 0;
+                height: 100%;
+                background: none;
+                padding: 0 20px;
+                font-size: 18px;
+                height: 100%;
+                border-radius: 0 !important;
+                border: none !important;
+                outline: none !important;
+                color: #67C23A;                
+                transition: all 0.3s ease;
+                animation: update-jump 0.5s ease infinite alternate;
+
+                &:hover{
+                    animation: none;
+                }
+
+                &:hover {
+                    background-color: #67C23A;
+                    outline: none !important;
+                    box-shadow: none !important;
+                    color: #333;
+                }
+
+                @keyframes update-jump {
+                    from{
+                        transform: translateY(0);
+                    }
+                    to{
+                        transform: translateY(3px);
+                    }
+                }
+            }
+
+            .system-button {
                 background: none;
                 padding: 0 20px;
                 height: 100%;
@@ -321,12 +362,12 @@ body {
                         background-image: url(../images/mesa-02.png);
                     }
 
-                    &.add-table {                        
-                        border-radius: 2px;                        
+                    &.add-table {
+                        border-radius: 2px;
                         opacity: 0.3;
                         aspect-ratio: 1/0.98;
                         margin-top: 3px;
-                        
+
                         &:hover {
                             cursor: pointer;
                             filter: drop-shadow(0px 0px 20px #fff) drop-shadow(0px 0px 20px #fff);
@@ -335,16 +376,16 @@ body {
                             opacity: 1;
                         }
 
-                        .table-name{
-                            text-align: center;                            
+                        .table-name {
+                            text-align: center;
 
-                            .el-icon{
+                            .el-icon {
                                 font-size: 30px;
                             }
                         }
                     }
 
-                    .table-options{
+                    .table-options {
                         position: absolute;
                         right: 20px;
                         top: 20px;
@@ -371,7 +412,7 @@ body {
                         //     border-left: 14px solid transparent;
                         //     border-right: 14px solid transparent;
                         // }
-                        
+
                     }
 
                     &:not(&.add-table) .table-name {
@@ -781,23 +822,39 @@ body {
                                         // }
 
                                         &:nth-child(1) {
-                                            transform: rotate(-15deg) translateY(-70px);
+                                            transform: rotate(-25deg) translateY(-100px);
+
+                                            .el-icon {
+                                                transform: rotate(25deg);
+                                            }
                                         }
 
                                         &:nth-child(2) {
-                                            transform: rotate(15deg) translateY(-70px);
+                                            transform: rotate(25deg) translateY(-100px);
+                                            .el-icon {
+                                                transform: rotate(-25deg);
+                                            }
                                         }
 
                                         &:nth-child(3) {
-                                            transform: rotate(205deg) translate(80px);
+                                            transform: rotate(50deg) translateY(-100px);
+                                            .el-icon {
+                                                transform: rotate(-75deg);
+                                            }
                                         }
 
                                         &:nth-child(4) {
-                                            transform: rotate(295deg) translate(80px);
+                                            transform: rotate(75deg) translateY(-100px);
+                                            .el-icon {
+                                                transform: rotate(-75deg);
+                                            }
                                         }
 
                                         &:nth-child(5) {
-                                            transform: rotate(385deg) translate(80px);
+                                            transform: rotate(100deg) translateY(-100px);
+                                            .el-icon {
+                                                transform: rotate(-100deg);
+                                            }
                                         }
                                     }
                                 }
@@ -1032,13 +1089,28 @@ body {
     opacity: 0;
 }
 
+// grow fade
+.grow-fade-enter-active {
+    transition: all 0.3s ease;
+}
+
+.grow-fade-leave-active {
+    transition: all 0.3s ease;
+}
+
+.grow-fade-enter-from,
+.grow-fade-leave-to {
+    transform: scale(0);
+    opacity: 0;
+}
+
 // fade
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
+    opacity: 0;
 }
