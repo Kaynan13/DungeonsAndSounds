@@ -51,7 +51,6 @@ export default {
     emit: ['select', 'create'],
 
     setup(props, { emit }) {
-        console.log('table list')
         const store = useStore()
 
         const tables = ref<Array<any>>([])

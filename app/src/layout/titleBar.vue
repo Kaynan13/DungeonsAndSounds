@@ -4,7 +4,7 @@
         <div class="left-content">
             <!-- <img src="" alt=""> -->
             Dungeons and Sounds
-            <span class="version">2.5.5</span>            
+            <span class="version">{{ appVersion }}</span>            
         </div>
 
         <div class="right-content">
@@ -43,8 +43,11 @@ import { ipcRenderer } from 'electron'
 
 import { ElMessage, ElMessageBox } from 'element-plus'
 
+import { version } from '../../package.json'
+
 export default {
     setup() {
+        const appVersion = ref(version);
 
         const winMinimize = () => {
             ipcRenderer.send('minimize')
@@ -100,6 +103,7 @@ export default {
 
         return {
             // data
+            appVersion,
             hasUpdate,
 
             // methods        

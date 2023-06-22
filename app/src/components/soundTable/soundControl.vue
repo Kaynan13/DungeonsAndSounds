@@ -101,8 +101,8 @@
 <script lang="ts">
 import { ref } from 'vue';
 
-import AudioType from '../store/entity/audio'
-import status from '../store/enums/statusEnum';
+import AudioType from '../../store/entity/audio'
+import status from '../../store/enums/statusEnum';
 
 export default {
     emit: ['change'],

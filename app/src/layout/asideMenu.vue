@@ -1,7 +1,7 @@
 <template>
     <div class="aside-menu-icons">
         <img src="../assets/images/logo.png">
-        <ul>
+        <!-- <ul>
             <el-tooltip class="box-item" effect="light" content="Jogar" placement="right">
                 <router-link to="home">
                     <li :class="[activeMenu == 'home' ? 'active' : '']" @click="activeMenu = 'home'">
@@ -21,7 +21,7 @@
                     </li>
                 </router-link>
             </el-tooltip>
-        </ul>
+        </ul> -->
     </div>
 </template>
 

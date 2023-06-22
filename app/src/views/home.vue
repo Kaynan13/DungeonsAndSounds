@@ -13,14 +13,14 @@
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 
-import soundTable from './soundTable.vue'
+// import soundTable from './soundTable.vue'
 import tableCreate from '../components/tableCreate.vue'
 import tableList from '../components/tableList.vue'
 import soundList from '../components/soundTable/soundList.vue'
 
 export default {
     components: {
-        soundTable,
+        // soundTable,
         tableCreate,
         tableList,
         soundList
@@ -31,8 +31,7 @@ export default {
 
         const tableSelected = ref('')
 
-        const selectTable = (table: string) => {
-            console.log(table)
+        const selectTable = (table: string) => {            
             tableSelected.value = table
         }
 

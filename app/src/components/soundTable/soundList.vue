@@ -14,7 +14,7 @@
                 </div>
 
                 <div :class="['sound-button', sound.config ? 'config' : '', sound.loaded ? '' : 'inative']"
-                    v-for="(sound, index) in soundList" @mouseleave="triggerConfigModeLeave(sound)">
+                    v-for="(sound, index) in soundList" @mouseleave="triggerConfigModeLeave(sound)" @click="playAudio(sound)">
 
                     <div class="sound-image" :style="{ 'background-image': `url(${sound.imageUrl})` }"></div>
 
@@ -68,6 +68,8 @@
 
         <soundCreate ref="soundCreateRef" :tableSelected="tableSelected" :groupList="groupList"
             @created="getSoundsFromTable" />
+
+        <soundControl ref="soundControlRef" />
     </div>
 </template>
 
@@ -80,6 +82,7 @@ import AudioType from '../../store/entity/audio'
 import { postGroupRange } from '../../store/interface/tableInterface'
 
 import soundCreate from './soundCreate.vue'
+import soundControl from './soundControl.vue'
 import soundHeader from './header.vue'
 
 export default {
@@ -97,6 +100,7 @@ export default {
     components: {
         soundCreate,
         soundHeader,
+        soundControl,
     },
 
     setup(props, { emit }) {
@@ -174,16 +178,13 @@ export default {
 
         const openSoundOptions = (sound: Sound, event: any) => {
             event.stopPropagation();
-            if (sound.loaded)
                 sound.config = !sound.config
         }
 
         const triggerConfigModeLeave = (sound: Sound) => {
-            if (sound.loaded) {
-                sound.configTimer = setTimeout(() => {
-                    sound.config = false
-                }, 500)
-            }
+            sound.configTimer = setTimeout(() => {
+                sound.config = false
+            }, 500)            
         }
 
         const checkLuma = (color: string) => {
@@ -227,12 +228,23 @@ export default {
             soundList.value = rawTable.value.sounds.filter((item: Sound) => item.group == group || group == null)
         }
 
+        const soundControlRef = ref()
+
+        const playAudio = (sound: Sound) => {
+            if(sound.loaded && !sound.config){
+                let currentSound = audioList.value.find(item => item.id == sound._videoId)
+                
+                soundControlRef.value.playAudio(currentSound)
+            }
+        }
+
 
         return {
             // data
             soundList,
             groupList,
             soundCreateRef,
+            soundControlRef,
 
             // methods
             openSoundOptions,
@@ -244,6 +256,7 @@ export default {
             editSound,
             backToTableList,
             filterGroup,
+            playAudio,
         }
     }
 }

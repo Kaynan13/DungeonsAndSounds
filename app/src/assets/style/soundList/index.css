@@ -1,4 +1,5 @@
 .sound-list-page {
+  height: calc(100svh - 30px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -168,6 +169,7 @@
   position: relative;
   filter: drop-shadow(0 0 10px #000);
   transition: all 0.3s ease;
+  border-radius: 50%;
 }
 .sound-list-page .sound-list-container .sound-list .sound-button:not(.inative):hover {
   transform: scale(1.1);
@@ -175,7 +177,16 @@
   cursor: pointer;
 }
 .sound-list-page .sound-list-container .sound-list .sound-button.inative {
+  filter: unset !important;
+  border: 1px solid #222;
+}
+.sound-list-page .sound-list-container .sound-list .sound-button.inative .sound-image,
+.sound-list-page .sound-list-container .sound-list .sound-button.inative .sound-group {
   filter: saturate(0%) contrast(50%) brightness(30%);
+}
+.sound-list-page .sound-list-container .sound-list .sound-button.inative .sound-infos {
+  background: transparent !important;
+  box-shadow: none !important;
 }
 .sound-list-page .sound-list-container .sound-list .sound-button.config .sound-infos {
   height: calc(100% - 20px) !important;
@@ -186,6 +197,9 @@
 }
 .sound-list-page .sound-list-container .sound-list .sound-button.config .sound-infos .sound-options {
   display: none;
+}
+.sound-list-page .sound-list-container .sound-list .sound-button.config .sound-infos .options-button {
+  top: calc(100%) !important;
 }
 .sound-list-page .sound-list-container .sound-list .sound-button .sound-image {
   width: calc(100% - 16px);
@@ -255,10 +269,123 @@
   transform: translateX(-50%);
   top: calc(50% + 5px);
   left: 50%;
+  transition: all 0.3s ease;
 }
 .sound-list-page .sound-list-container .sound-list .sound-button .sound-content .sound-infos-content .sound-infos .sound-options {
   margin-top: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.sound-list-page .sound-control-panel {
+  flex-shrink: 0;
+  width: 100%;
+  height: 140px;
+  background-color: #111;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.sound-list-page .sound-control-panel .scene-audios-container {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: nowrap;
+  background-color: #fff;
+  border: 2px solid #fff;
+  padding-top: 20px;
+  border-radius: 5000000000000000000px;
+  position: relative;
+}
+.sound-list-page .sound-control-panel .scene-audios-container .scene-name {
+  position: absolute;
+  color: #000;
+  font-size: 15px;
+  font-weight: bold;
+  transform: translateX(-50%);
+  top: 0;
+  left: 50%;
+}
+.sound-list-page .sound-control-panel .scene-audios-container .control-audio-content {
+  margin: 0 10px !important;
+}
+.sound-list-page .sound-control-panel .control-audio-content {
+  background-color: #333;
+  width: 100px;
+  height: 100px;
+  margin: 20px 10px 0 10px;
+  border-radius: 50%;
+  position: relative;
+}
+.sound-list-page .sound-control-panel .control-audio-content:hover .control-audio {
+  bottom: 50px;
+  visibility: visible;
+  opacity: 1;
+}
+.sound-list-page .sound-control-panel .control-audio-content .audio-infos {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 1;
+  white-space: pre-wrap;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  z-index: 99999;
+  text-shadow: 2px 0 #2b0000, -2px 0 #2b0000, 0 2px #2b0000, 0 -2px #2b0000, 1px 1px #2b0000, -1px -1px #2b0000, 1px -1px #2b0000, -1px 1px #2b0000;
+}
+.sound-list-page .sound-control-panel .control-audio-content .audio-infos .el-progress {
+  position: absolute !important;
+  transform: translate(-50%, -50%) !important;
+  top: 50% !important;
+  left: 50% !important;
+}
+.sound-list-page .sound-control-panel .control-audio-content .audio-infos .el-progress .el-progress-circle {
+  width: 100px !important;
+  height: 100px !important;
+}
+.sound-list-page .sound-control-panel .control-audio-content .audio-infos span {
+  position: absolute;
+  max-width: 100%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
+.sound-list-page .sound-control-panel .control-audio-content .control-audio {
+  width: calc(100% - 20px);
+  padding: 20px 10px 80px 10px;
+  border-radius: 20px 20px 5px 5px;
+  position: absolute;
+  background-color: #333;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  transform: translateX(-50%);
+  left: 50%;
+  transition: all 0.3s ease;
+  bottom: 0px;
+  visibility: hidden;
+  opacity: 0;
+  bottom: 20px;
+}
+.sound-list-page .sound-control-panel .control-audio-content .control-audio .control-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+}
+.sound-list-page .sound-control-panel .control-audio-content .control-audio .control-buttons button {
+  margin: 10px 0 !important;
 }

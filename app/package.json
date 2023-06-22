@@ -1,6 +1,6 @@
 {
   "name": "DungeonsAndSounds",
-  "version": "2.5.5",
+  "version": "2.5.6",
   "main": "dist-electron/main/index.js",
   "description": "Sound table to use on D&D games.",
   "author": "Kaynan",
@@ -63,6 +63,6 @@
     "vue-router": "^4.1.6",
     "vuex": "^4.0.2",
     "vuex-module-decorators": "^1.0.1",
-    "ytdl-core": "4.10.0"
+    "ytdl-core": "^4.11.4"
   }
 }
