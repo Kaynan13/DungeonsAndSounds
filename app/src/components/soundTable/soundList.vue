@@ -49,7 +49,7 @@
                                         </el-icon>
                                     </el-button>
 
-                                    <el-button type="danger" plain circle>
+                                    <el-button type="danger" plain circle @click="deleteSound(sound, $event)">
                                         <el-icon>
                                             <Delete />
                                         </el-icon>
@@ -111,6 +111,7 @@ export default {
         const groupList = ref<Array<any>>([])
 
         const getSoundsFromTable = () => {
+            debugger
             store.dispatch(tableActions.GET_SOUNDS, props.tableSelected).then(res => {
                 rawTable.value = res
 
@@ -220,6 +221,12 @@ export default {
             soundCreateRef.value.editSound(sound);
         }
 
+        const deleteSound = (sound: Sound, evt: any) => {
+            evt.stopPropagation()
+
+            soundCreateRef.value.deleteSound(sound);
+        }
+
         const backToTableList = () => {
             emit('back')
         }
@@ -254,6 +261,7 @@ export default {
             checkLuma,
             openFormModal,
             editSound,
+            deleteSound,
             backToTableList,
             filterGroup,
             playAudio,

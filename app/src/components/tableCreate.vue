@@ -84,10 +84,11 @@ export default {
                 if (valid) {
                     createTableFile(modelCreateTable.value!.fileName).then(res => {
                         if(res){
+                            debugger;
+                            emit('created', modelCreateTable.value!.fileName)
                             formEl.resetFields();
                             modal.value = false;
                             modelCreateTable.value = { fileName: '' };
-                            emit('created', modelCreateTable.value!.fileName)
                         }
 
                     })                    

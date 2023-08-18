@@ -1,46 +1,62 @@
 <template>
-    <!-- FORMULARIO DE CRIAR SONS -->
-    <el-dialog v-model="modal" title="Adicionar Som">
+  <!-- FORMULARIO DE CRIAR SONS -->
+  <el-dialog v-model="modal" title="Adicionar Som">
+    <el-form ref="ruleFormRef" :model="model" :rules="rules">
+      <div style="display: flex; flex-wrap: nowrap">
+        <el-form-item prop="group">
+          <el-select
+            v-model="model.group"
+            filterable
+            allow-create
+            default-first-option
+            @change="changeGroup"
+            :reserve-keyword="false"
+            placeholder="Grupo"
+          >
+            <el-option
+              v-for="item in groupList"
+              :key="item.name"
+              :label="item.name"
+              :value="item.name"
+            />
+          </el-select>
+        </el-form-item>
 
-        <el-form ref="ruleFormRef" :model="model" :rules="rules">
+        <div style="margin-left: 15px">
+          <el-form-item prop="groupColor">
+            <el-color-picker
+              :disabled="disableGroupColor"
+              v-model="groupColor"
+              placeholder="Cor do Grupo"
+            />
+          </el-form-item>
+        </div>
+      </div>
 
-            <div style="display: flex; flex-wrap: nowrap;">
-                <el-form-item prop="group">
-                    <el-select v-model="model.group" filterable allow-create default-first-option @change="changeGroup"
-                        :reserve-keyword="false" placeholder="Grupo">
-                        <el-option v-for="item in groupList" :key="item.name" :label="item.name" :value="item.name" />
-                    </el-select>
-                </el-form-item>
+      <el-form-item prop="soundUrl">
+        <el-input
+          v-model="model.soundUrl"
+          @input="getVideoInfos"
+          placeholder="Url do Youtube"
+        />
+      </el-form-item>
 
-                <div style="margin-left: 15px">
-                    <el-form-item prop="groupColor">
-                        <el-color-picker :disabled="disableGroupColor" v-model="groupColor" placeholder="Cor do Grupo" />
-                    </el-form-item>
-                </div>
-            </div>
+      <el-form-item prop="name">
+        <el-input placeholder="Nome do Som" v-model="model.name" maxlength="25" />
+      </el-form-item>
 
-            <el-form-item prop="soundUrl">
-                <el-input v-model="model.soundUrl" @input="getVideoInfos" placeholder="Url do Youtube" />
-            </el-form-item>
+      <el-form-item prop="imageUrl">
+        <el-input placeholder="Url Imagem" v-model="model.imageUrl" />
+      </el-form-item>
+    </el-form>
 
-            <el-form-item prop="name">
-                <el-input placeholder="Nome do Som" v-model="model.name" maxlength="25" />
-            </el-form-item>
-
-            <el-form-item prop="imageUrl">
-                <el-input placeholder="Url Imagem" v-model="model.imageUrl" />
-            </el-form-item>
-        </el-form>
-
-        <template #footer>
-            <span class="dialog-footer">
-                <el-button @click="closeModal(ruleFormRef)">Cancelar</el-button>
-                <el-button type="primary" @click="saveSound(ruleFormRef)">
-                    Salvar
-                </el-button>
-            </span>
-        </template>
-    </el-dialog>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="closeModal(ruleFormRef)">Cancelar</el-button>
+        <el-button type="primary" @click="saveSound(ruleFormRef)"> Salvar </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts">
@@ -48,7 +64,7 @@ import { ref } from 'vue'
 import Sound from '../../store/entity/sound'
 
 import { useStore } from 'vuex'
-import { ElLoading, FormInstance } from 'element-plus'
+import { ElLoading, ElMessageBox, FormInstance } from 'element-plus'
 
 import { tableActions } from '../../store/enums/tableEnum'
 import { postGroup, postSound, putGroup } from '../../store/interface/tableInterface'
@@ -124,16 +140,21 @@ export default {
         }
 
         const getVideoInfos = async () => {
-            if (model.value.soundUrl.includes('?v=')) {
+            if(model.value.soundUrl.includes('?v=')){
                 let indexStart = model.value.soundUrl.indexOf('?v=') + 3
-                let videoId = model.value.soundUrl.substring(indexStart, model.value.soundUrl.length).split('&')[0]
+                model.value._videoId = model.value.soundUrl.substring(indexStart, model.value.soundUrl.length).split('&')[0]
+            }
 
+            if(model.value.soundUrl.includes('youtu.be'))
+                model.value._videoId = model.value.soundUrl.split('.be/')[1]
+
+            if (model.value._videoId) {                
                 const loading = ElLoading.service({
                     lock: true,
                     background: 'rgba(0, 0, 0, 0.7)',
                 });
 
-                store.dispatch(tableActions.GET_VIDEO_INFOS, videoId).then(res => {
+                store.dispatch(tableActions.GET_VIDEO_INFOS, model.value._videoId).then(res => {
                     model.value.imageUrl = res.image
                     model.value.name = res.name
 
@@ -146,10 +167,10 @@ export default {
 
         const saveSound = async (formEl: FormInstance) => {
             if (!formEl) return
-            
+
             await formEl.validate(valid => {
                 if (valid) {
-                    
+                    debugger
                     // Groups Save and Edit
                     let selectedGroup = props.groupList.find(item => item.name == model.value.group)
                     if(selectedGroup && selectedGroup.color !== groupColor.value)
@@ -157,7 +178,7 @@ export default {
                     else if(!selectedGroup)
                         store.dispatch(tableActions.POST_GROUP, {table: props.tableSelected, group: {name: model.value.group, color: groupColor.value}} as postGroup)
 
-                    if (model.value.id) {                        
+                    if (model.value.id) {
                         let data: postSound = {
                             table: props.tableSelected,
                             sound: model.value
@@ -185,7 +206,7 @@ export default {
         }
 
         const disableGroupColor = ref<boolean>(false);
-        const changeGroup = (group: any) => {            
+        const changeGroup = (group: any) => {
             let selectedGroup: any = props.groupList.find((item: any) => item.name == group)
 
             if(selectedGroup)
@@ -198,6 +219,25 @@ export default {
             modal.value = true
         }
 
+        const deleteSound = (sound: Sound) => {
+            ElMessageBox.confirm(
+                `Você está prestes a deletar o som: ${sound.name}`,
+                'Warning',
+                {
+                    confirmButtonText: 'Deletar',
+                    cancelButtonText: 'Cancelar',
+                    type: 'warning',
+                }
+            ).then(() => {
+                let model = {
+                    table: props.tableSelected,
+                    soundId: sound.id!
+                } 
+                
+                store.dispatch(tableActions.DELETE_SOUND, model).then(res => {                    
+                })
+            })
+        }
 
         return {
             // data
@@ -213,11 +253,11 @@ export default {
             openModal,
             closeModal,
             getVideoInfos,
-            saveSound,            
+            saveSound,
             changeGroup,
-            editSound
+            editSound,
+            deleteSound
         }
     }
 }
-
 </script>

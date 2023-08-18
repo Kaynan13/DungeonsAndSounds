@@ -84,13 +84,6 @@ export default {
                 }
             ).then(() => {
                 ipcRenderer.send('start-update');
-
-                ipcRenderer.on('update-finished', () => {
-                    ElMessage({
-                        type: 'success',
-                        message: `Dungeons and Sounds atualizado com sucesso!`,
-                    })
-                })
             });
         }
 

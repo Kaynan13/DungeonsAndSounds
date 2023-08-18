@@ -4,33 +4,44 @@ import { tableActions, tableMutations } from "../enums/tableEnum";
 import fs from 'fs';
 import Table from "../entity/table";
 import Sound from "../entity/sound";
-import type { createTable, postSound, putSound, deleteSound, PostGroupRange, putGroup, postGroup } from "../interface/tableInterface";
+import type { createTable, postSound, putSound, deleteSound, postGroupRange, putGroup, postGroup } from "../interface/tableInterface";
 import axios from "axios";
 
 
 
 @Module
 export default class TableModule extends VuexModule {
+    storage = window.localStorage
+    folderDir: string = this.storage.getItem('folderDir')??''
+    resourceDir: string = `${__dirname.substring(0, __dirname.indexOf('resources') + 10).replaceAll(/\\/g, "/")}`
 
-    private static folderDir: string = `${__dirname.substring(0, __dirname.indexOf('resources') + 10).replaceAll(/\\/g, "/")}`
+    // GETTERS
 
-    // tables: any = {}; 
+    get getFolderDir() {
+        if(this.folderDir == '')
+            this.context.commit(tableMutations.SET_FOLDER_DIR, this.storage.getItem('folderDir'))
+        return this.folderDir
+    }
 
+    // MUTATIONS
 
-    // @Mutation
-    // [tableMutations.SET_TABLE_GETTER](table: createTable){
-    //     this.tables[table.fileName!] = table.data;
-    // }
+    @Mutation
+    [tableMutations.SET_FOLDER_DIR](path: string){
+        this.folderDir = path
+        this.storage.setItem('folderDir', path)
+    }
 
-    // @Action
-    // [tableActions.SET_TABLE_GETTER_ACTION](table: createTable){
-    //     this.context.commit(tableMutations.SET_TABLE_GETTER, table)
-    // }
+    // ACTIONS
+
+    @Action
+    [tableActions.SET_FOLDER_DIR_ACTION](path: string){
+        this.context.commit(tableMutations.SET_FOLDER_DIR, path)
+    }
 
     @Action
     [tableActions.GET_TABLES]() {
-        return new Promise((resolve, reject) => {
-            fs.readdir(TableModule.folderDir, (err, files) => {
+        return new Promise((resolve, reject) => {   
+            fs.readdir(this.folderDir, (err, files) => {
                 if (err) {
                     console.error(`Unable to scan directory: ${err}`);
                     reject(`Unable to scan directory: ${err}`);
@@ -50,7 +61,7 @@ export default class TableModule extends VuexModule {
 
     @Action
     [tableActions.CREATE_TABLE](data: createTable) {
-        return new Promise(resolve => {
+        return new Promise(resolve => {            
             if (!data.data)
                 data.data = '{"scenes": [], "groups": [], "sounds": []}'
             else
@@ -63,7 +74,7 @@ export default class TableModule extends VuexModule {
                     return v.toString(16);
                 });
 
-            fs.writeFileSync(`${TableModule.folderDir}/${data.fileName}.json`, data.data, `utf-8`)
+            fs.writeFileSync(`${this.folderDir}/${data.fileName}.json`, data.data, `utf-8`)
 
             resolve(true)
         })
@@ -73,7 +84,7 @@ export default class TableModule extends VuexModule {
     [tableActions.DELETE_TABLE](tableName: string) {
         return new Promise((resolve, reject) => {
             if (tableName && tableName != '') {
-                fs.unlink(`${TableModule.folderDir}/${tableName.includes('.json') ? tableName : tableName + '.json'}`, err => {
+                fs.unlink(`${this.folderDir}/${tableName.includes('.json') ? tableName : tableName + '.json'}`, err => {
                     if (err) {
                         console.error(err)
                         reject(err)
@@ -89,7 +100,7 @@ export default class TableModule extends VuexModule {
     [tableActions.GET_SOUNDS](table: string) {
         return new Promise((resolve, reject) => {
             let tableName = table.includes('.json') ? table : `${table}.json`;
-            fs.readFile(`${TableModule.folderDir}/${tableName}`, 'utf-8', (err, data: any) => {
+            fs.readFile(`${this.folderDir}/${tableName}`, 'utf-8', (err, data: any) => {
                 if (err) {
                     console.error(`Unable to scan file: ${err}`);
                     reject(err);
@@ -111,12 +122,12 @@ export default class TableModule extends VuexModule {
     [tableActions.POST_SOUND](data: postSound) {
         return new Promise((resolve, reject) => {
             let tableName = data.table.includes('.json') ? data.table : `${data.table}.json`;
-            let model: Table = JSON.parse(fs.readFileSync(`${TableModule.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));
+            let model: Table = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));
 
             data.sound.id = model.sounds.length > 0 ? model.sounds[model.sounds.length - 1].id! + 1 : 1;
             model.sounds.push(data.sound)
 
-            fs.writeFile(`${TableModule.folderDir}/${tableName}`, JSON.stringify(model), err => {
+            fs.writeFile(`${this.folderDir}/${tableName}`, JSON.stringify(model), err => {
                 if (err) {
                     console.error(`Unable to save data: ${err}`);
                     reject(err);
@@ -131,7 +142,7 @@ export default class TableModule extends VuexModule {
     [tableActions.PUT_SOUND](data: putSound) {
         return new Promise((resolve, reject) => {
             let tableName = data.table.includes('.json') ? data.table : `${data.table}.json`;
-            let model: any = JSON.parse(fs.readFileSync(`${TableModule.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));
+            let model: any = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));
 
             if (model.sounds.findIndex((item: Sound) => item.id == data.sound.id) < 0) {
                 console.error('Sound does not exist in table');
@@ -147,7 +158,7 @@ export default class TableModule extends VuexModule {
 
             model.sounds = newModelSounds;
 
-            fs.writeFile(`${TableModule.folderDir}/${tableName}`, JSON.stringify(model), err => {
+            fs.writeFile(`${this.folderDir}/${tableName}`, JSON.stringify(model), err => {
                 if (err) {
                     console.error(`Unable to update data: ${err}`);
                     reject(err);
@@ -162,7 +173,7 @@ export default class TableModule extends VuexModule {
     [tableActions.DELETE_SOUND](data: deleteSound) {
         return new Promise((resolve, reject) => {
             let tableName = data.table.includes('.json') ? data.table : `${data.table}.json`;
-            let model: any = JSON.parse(fs.readFileSync(`${TableModule.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));;
+            let model: any = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));;
 
             let index = model.sounds.findIndex((item: Sound) => item.id == data.soundId);
 
@@ -173,7 +184,7 @@ export default class TableModule extends VuexModule {
 
             model.sounds.splice(index, 1)
 
-            fs.writeFile(`${TableModule.folderDir}/${tableName}`, JSON.stringify(model), err => {
+            fs.writeFile(`${this.folderDir}/${tableName}`, JSON.stringify(model), err => {
                 if (err) {
                     console.error(`Unable to delete data: ${err}`);
                     reject(err);
@@ -185,10 +196,10 @@ export default class TableModule extends VuexModule {
     }
 
     @Action
-    [tableActions.POST_GROUP_RANGE](data: PostGroupRange) {
+    [tableActions.POST_GROUP_RANGE](data: postGroupRange) {
         return new Promise((resolve, reject) => {            
             let tableName = data.table.includes('.json') ? data.table : `${data.table}.json`;
-            let model: any = JSON.parse(fs.readFileSync(`${TableModule.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));
+            let model: any = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));
 
             while(typeof model == 'string')
                 model = JSON.parse(model)
@@ -198,7 +209,7 @@ export default class TableModule extends VuexModule {
             else
                 model.groups = data.groups;
 
-            fs.writeFile(`${TableModule.folderDir}/${tableName}`, JSON.stringify(model), err => {
+            fs.writeFile(`${this.folderDir}/${tableName}`, JSON.stringify(model), err => {
                 if (err) {
                     console.error(`Unable to update data: ${err}`);
                     reject(err);
@@ -213,11 +224,11 @@ export default class TableModule extends VuexModule {
     [tableActions.POST_GROUP](data: postGroup) {
         return new Promise((resolve, reject) => {
             let tableName = data.table.includes('.json') ? data.table : `${data.table}.json`;
-            let model: Table = JSON.parse(fs.readFileSync(`${TableModule.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));
+            let model: Table = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));
             
             model.groups.push(data.group)
 
-            fs.writeFile(`${TableModule.folderDir}/${tableName}`, JSON.stringify(model), err => {
+            fs.writeFile(`${this.folderDir}/${tableName}`, JSON.stringify(model), err => {
                 if (err) {
                     console.error(`Unable to save data: ${err}`);
                     reject(err);
@@ -232,7 +243,7 @@ export default class TableModule extends VuexModule {
     [tableActions.PUT_GROUP](data: putGroup) {
         return new Promise((resolve, reject) => {
             let tableName = data.table.includes('.json') ? data.table : `${data.table}.json`;
-            let model: any = JSON.parse(fs.readFileSync(`${TableModule.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));;
+            let model: any = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));;
 
             if (model.groups.findIndex((item: any) => item.name == data.group.name) < 0) {
                 console.error('Group does not exist in table');
@@ -248,7 +259,7 @@ export default class TableModule extends VuexModule {
 
             model.groups = newModelSounds;
 
-            fs.writeFile(`${TableModule.folderDir}/${tableName}`, JSON.stringify(model), err => {
+            fs.writeFile(`${this.folderDir}/${tableName}`, JSON.stringify(model), err => {
                 if (err) {
                     console.error(`Unable to update data: ${err}`);
                     reject(err);
@@ -279,4 +290,42 @@ export default class TableModule extends VuexModule {
         })
     }
 
+    @Action
+    [tableActions.CREATE_CONFIG_FILE](data: any){
+        return new Promise((resolve, reject) => {
+            fs.writeFile(`${this.resourceDir}/configFile.json`, JSON.stringify(data), err => {
+                if (err) {
+                    console.error(`Unable to create configFile: ${err}`);
+                    reject(err);
+                }
+
+                resolve(true);
+            })
+            
+            resolve(true)
+        })
+    }
+
+    @Action
+    [tableActions.GET_CONFIG_FILE](){
+        return new Promise((resolve, reject) => {            
+            fs.readFile(`${this.resourceDir}/configFile.json`,'utf-8', (err, data: any) => {
+                if (err) {
+                    console.error(`Unable to scan file: ${err}`);
+                    reject(err);
+                }
+
+                let result = !data || data.length <= 0 ? [] : JSON.parse(data);
+
+                while (typeof result == 'string') {
+                    result = JSON.parse(result);
+                }
+                // result.sounds.filter((item: any) => !this.tables[table]._id == item._videoId)
+
+                this.context.commit(tableMutations.SET_FOLDER_DIR, result.tablesPath)
+                resolve(true);
+                
+            })
+        })
+    }
 }

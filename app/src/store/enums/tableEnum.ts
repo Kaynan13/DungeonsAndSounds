@@ -1,4 +1,6 @@
 enum tableActions {
+    CREATE_CONFIG_FILE = "CreateConfigFile",
+    GET_CONFIG_FILE = " GetConfigFile",
     GET_TABLES = "GetTables",
     CREATE_TABLE = "CreateTable",
     DELETE_TABLE = "DeleteTable",
@@ -11,10 +13,12 @@ enum tableActions {
     DELETE_SOUND = "DeleteSound",
     SET_TABLE_GETTER_ACTION = "SetTableGetterAction",
     GET_VIDEO_INFOS = "GetVideoInfos",
+    SET_FOLDER_DIR_ACTION = "SetFolderDirAction"
 }
 
 enum tableMutations{
-    SET_TABLE_GETTER = "SetTableGetter"
+    SET_TABLE_GETTER = "SetTableGetter",
+    SET_FOLDER_DIR = "SetFoldeDir",
 }
 
 export {

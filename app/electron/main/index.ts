@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron'
 import { release } from 'node:os'
 import { join } from 'node:path'
 import { autoUpdater, AppUpdater } from 'electron-updater'
@@ -48,7 +48,7 @@ async function createWindow() {
 	win = new BrowserWindow({
 		title: 'Main window',
 		width: 1000,
-  		height: 700,
+		height: 700,
 		minWidth: 700,
 		minHeight: 400,
 		icon: join(process.env.PUBLIC, 'favicon.ico'),
@@ -57,6 +57,7 @@ async function createWindow() {
 			preload,
 			nodeIntegration: true,
 			contextIsolation: false,
+			enableRemoteModule: true,
 			devTools: true
 		},
 	})
@@ -79,13 +80,15 @@ async function createWindow() {
 		if (url.startsWith('https:')) shell.openExternal(url)
 		return { action: 'deny' }
 	})
-	// win.webContents.on('will-navigate', (event, url) => { }) #344
+	// win.webContents.on('will-navigate', (event, url) => { }) #344	
 }
 
 app.whenReady().then(() => {
 	createWindow();
 
-	autoUpdater.checkForUpdates();
+	autoUpdater.checkForUpdates();	
+
+	folderSelect();
 })
 
 app.on('window-all-closed', () => {
@@ -164,4 +167,14 @@ autoUpdater.on('update-downloaded', () => {
 
 autoUpdater.on('error', (err) => {
 	win.webContents.send('update-error', err);
+})
+
+ipcMain.on('choosePath', async () => {
+
+	const path = await dialog.showOpenDialogSync(win, {
+		properties: ['openDirectory']
+	})
+	
+	console.log(...path)
+	win.webContents.send('choosedPath', ...path)
 })
