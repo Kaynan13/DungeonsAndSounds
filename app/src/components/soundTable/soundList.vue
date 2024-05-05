@@ -34,8 +34,7 @@
                                 </div>
 
                                 <div class="options-button"
-                                    @click="openSoundOptions(sound, $event)">
-                                    <!-- <el-icon><More /></el-icon> -->
+                                    @click="openSoundOptions(sound, $event)">                                    
                                     <el-icon>
                                         <ArrowUpBold />
                                     </el-icon>
@@ -76,6 +75,8 @@
 <script lang="ts">
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import { ElMessageBox } from 'element-plus'
+
 import { tableActions } from '../../store/enums/tableEnum'
 import Sound from '../../store/entity/sound'
 import AudioType from '../../store/entity/audio'
@@ -110,8 +111,7 @@ export default {
         const audioList = ref<Array<AudioType>>([])
         const groupList = ref<Array<any>>([])
 
-        const getSoundsFromTable = () => {
-            debugger
+        const getSoundsFromTable = () => {            
             store.dispatch(tableActions.GET_SOUNDS, props.tableSelected).then(res => {
                 rawTable.value = res
 
@@ -174,7 +174,11 @@ export default {
         getSoundsFromTable();
 
         const getGroupColor = (group: string) => {
-            return groupList.value.find((item: any) => item.name == group).color
+            let currentGroup = groupList.value.find((item: any) => item.name == group)
+            if(currentGroup)
+                return groupList.value.find((item: any) => item.name == group).color
+            else
+                return '#cdcdcd'
         }
 
         const openSoundOptions = (sound: Sound, event: any) => {
@@ -223,8 +227,24 @@ export default {
 
         const deleteSound = (sound: Sound, evt: any) => {
             evt.stopPropagation()
-
-            soundCreateRef.value.deleteSound(sound);
+                    
+            ElMessageBox.confirm(
+                `Você está prestes a deletar o som: ${sound.name}`,
+                'Warning',
+                {
+                    confirmButtonText: 'Deletar',
+                    cancelButtonText: 'Cancelar',
+                    type: 'warning',
+                }
+            ).then(() => {
+                let model = {
+                    table: props.tableSelected,
+                    soundId: sound.id!
+                } 
+                
+                store.dispatch(tableActions.DELETE_SOUND, model).then(() => getSoundsFromTable())
+            })
+        
         }
 
         const backToTableList = () => {

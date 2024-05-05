@@ -211,11 +211,12 @@
                     filter: unset !important;
                     border: 1px solid #222;
 
-                    .sound-image, .sound-group {
+                    .sound-image,
+                    .sound-group {
                         filter: saturate(0%) contrast(50%) brightness(30%);
                     }
 
-                    .sound-infos{
+                    .sound-infos {
                         background: transparent !important;
                         box-shadow: none !important;
                     }
@@ -225,13 +226,18 @@
                     .sound-infos {
                         height: ~"calc(100% - 20px)" !important;
                         bottom: 0 !important;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-around;
 
                         .sound-name {
-                            margin-top: 20px !important;
+                            margin-top: 10px !important;
                         }
 
                         .sound-options {
-                            display: none;
+                            display: flex !important;
+                            justify-content: center;
+                            align-items: center;
                         }
 
                         .options-button {
@@ -299,7 +305,7 @@
                             transition: all 0.3s ease;
 
                             .sound-name {
-                                width: ~"100% - 10px";
+                                width: ~"calc(100% - 10px)";
                                 max-height: 26px;
                                 padding: 5px;
                                 text-align: center;
@@ -307,18 +313,20 @@
                             }
 
                             .options-button {
+                                padding: 0 10px;
                                 position: absolute;
                                 transform: translateX(-50%);
                                 top: ~"calc(50% + 5px)";
                                 left: 50%;
                                 transition: all 0.3s ease;
+
+                                &:hover{
+                                    transform: translate(-50%, -2px) scale(1.1);
+                                }
                             }
 
                             .sound-options {
-                                margin-top: 50px;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
+                                display: none;
                             }
                         }
                     }

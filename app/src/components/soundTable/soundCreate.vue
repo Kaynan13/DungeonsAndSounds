@@ -1,6 +1,6 @@
 <template>
   <!-- FORMULARIO DE CRIAR SONS -->
-  <el-dialog v-model="modal" title="Adicionar Som">
+  <el-dialog v-model="modal" :title="isEdit ? 'Editar Som' : 'Adicionar Som'">
     <el-form ref="ruleFormRef" :model="model" :rules="rules">
       <div style="display: flex; flex-wrap: nowrap">
         <el-form-item prop="group">
@@ -12,6 +12,7 @@
             @change="changeGroup"
             :reserve-keyword="false"
             placeholder="Grupo"
+            style="min-width: 250px;"
           >
             <el-option
               v-for="item in groupList"
@@ -64,7 +65,7 @@ import { ref } from 'vue'
 import Sound from '../../store/entity/sound'
 
 import { useStore } from 'vuex'
-import { ElLoading, ElMessageBox, FormInstance } from 'element-plus'
+import { ElLoading, FormInstance } from 'element-plus'
 
 import { tableActions } from '../../store/enums/tableEnum'
 import { postGroup, postSound, putGroup } from '../../store/interface/tableInterface'
@@ -125,6 +126,7 @@ export default {
         })
 
         const openModal = () => {
+            if(ruleFormRef.value) ruleFormRef.value.resetFields()
             modal.value = true
             groupColor.value = `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`
         }
@@ -136,6 +138,7 @@ export default {
             setTimeout(() => {
                 formEl.resetFields();
                 model.value = new Sound();
+                isEdit.value = false
             }, 100)
         }
 
@@ -155,8 +158,9 @@ export default {
                 });
 
                 store.dispatch(tableActions.GET_VIDEO_INFOS, model.value._videoId).then(res => {
+                    debugger
                     model.value.imageUrl = res.image
-                    model.value.name = res.name
+                    model.value.name = res.name.length <= 25 ? res.name : res.name.match(/.{1,25}/g)[0]
 
                     setTimeout(() => {
                         loading.close()
@@ -199,7 +203,7 @@ export default {
                     }
 
                     closeModal(formEl)
-
+                    isEdit.value = false
                 }
             })
 
@@ -213,31 +217,14 @@ export default {
                 groupColor.value = selectedGroup.color
         }
 
+        const isEdit = ref(false)
         const editSound = (sound: Sound) => {
-            model.value = sound
+            isEdit.value = true
+            model.value = {...sound}
             changeGroup(model.value.group)
             modal.value = true
         }
 
-        const deleteSound = (sound: Sound) => {
-            ElMessageBox.confirm(
-                `Você está prestes a deletar o som: ${sound.name}`,
-                'Warning',
-                {
-                    confirmButtonText: 'Deletar',
-                    cancelButtonText: 'Cancelar',
-                    type: 'warning',
-                }
-            ).then(() => {
-                let model = {
-                    table: props.tableSelected,
-                    soundId: sound.id!
-                } 
-                
-                store.dispatch(tableActions.DELETE_SOUND, model).then(res => {                    
-                })
-            })
-        }
 
         return {
             // data
@@ -248,6 +235,7 @@ export default {
             ruleFormRef,
             rules,
             disableGroupColor,
+            isEdit,
 
             // methods
             openModal,
@@ -255,8 +243,7 @@ export default {
             getVideoInfos,
             saveSound,
             changeGroup,
-            editSound,
-            deleteSound
+            editSound
         }
     }
 }
