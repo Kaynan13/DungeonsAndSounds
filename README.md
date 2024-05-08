@@ -1,4 +1,4 @@
-<img src="https://dungeons-and-sounds.vercel.app/Content/img/logo.png" width="100" />
+<img src="https://dungeons-and-sounds.vercel.app/Content/img/DS-Logo.png" width="100" />
 
 # DungeonsAndSounds
 

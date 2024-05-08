@@ -1,18 +1,15 @@
 <template>
-        <titleBar></titleBar>
-        <asideMenu></asideMenu>
+        <titleBar></titleBar>        
         <main>            
             <router-view></router-view>
         </main>
 </template>
 
 <script lang="ts">
-import asideMenu from "./asideMenu.vue"
 import titleBar from "./titleBar.vue"
 
 export default{
-    components: {
-        asideMenu,
+    components: {        
         titleBar
     }
 

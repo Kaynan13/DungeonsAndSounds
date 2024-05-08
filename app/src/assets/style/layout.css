@@ -2,7 +2,7 @@
   font-family: dragon;
   src: url(../fonts/DragonHunter-9Ynxj.otf);
 }
-body #app {
+body .app {
   width: 100%;
   min-height: 100svh;
   color: #fff;
@@ -38,6 +38,9 @@ body .title-bar .left-content {
   padding-left: 5px;
   font-size: 15px;
   letter-spacing: 1px;
+}
+body .title-bar .left-content img {
+  max-height: 100%;
 }
 body .title-bar .left-content .version {
   color: #555;
@@ -140,11 +143,10 @@ body .aside-menu-icons ul li:hover .el-icon {
   transform: scale(1.1);
 }
 body main {
-  width: calc(100% - 55px);
+  width: 100%;
   overflow: auto;
   min-height: calc(100svh - 30px);
   margin-top: 30px;
-  margin-left: 55px;
   background-color: #1b1b1b;
 }
 body main .manage-sound-table {

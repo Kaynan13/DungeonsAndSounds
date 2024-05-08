@@ -14,7 +14,8 @@
                 </div>
 
                 <div :class="['sound-button', sound.config ? 'config' : '', sound.loaded ? '' : 'inative']"
-                    v-for="(sound, index) in soundList" @mouseleave="triggerConfigModeLeave(sound)" @click="playAudio(sound)">
+                    v-for="(sound, index) in soundList" @mouseleave="triggerConfigModeLeave(sound)"
+                    @click="playAudio(sound)">
 
                     <div class="sound-image" :style="{ 'background-image': `url(${sound.imageUrl})` }"></div>
 
@@ -23,7 +24,7 @@
                         <div class="sound-group"
                             :style="{ backgroundColor: getGroupColor(sound.group), color: checkLuma(getGroupColor(sound.group)) }">
                             {{
-                                sound.group }}</div>
+            sound.group }}</div>
 
                         <div class="sound-infos-content">
 
@@ -33,8 +34,7 @@
                                     {{ sound.name }}
                                 </div>
 
-                                <div class="options-button"
-                                    @click="openSoundOptions(sound, $event)">                                    
+                                <div class="options-button" @click="openSoundOptions(sound, $event)">
                                     <el-icon>
                                         <ArrowUpBold />
                                     </el-icon>
@@ -68,6 +68,8 @@
         <soundCreate ref="soundCreateRef" :tableSelected="tableSelected" :groupList="groupList"
             @created="getSoundsFromTable" />
 
+        <!-- <sceneTimeline /> -->
+
         <soundControl ref="soundControlRef" />
     </div>
 </template>
@@ -84,6 +86,7 @@ import { postGroupRange } from '../../store/interface/tableInterface'
 
 import soundCreate from './soundCreate.vue'
 import soundControl from './soundControl.vue'
+import sceneTimeline from './sceneTimeline.vue'
 import soundHeader from './header.vue'
 
 export default {
@@ -102,6 +105,7 @@ export default {
         soundCreate,
         soundHeader,
         soundControl,
+        sceneTimeline,
     },
 
     setup(props, { emit }) {
@@ -111,17 +115,17 @@ export default {
         const audioList = ref<Array<AudioType>>([])
         const groupList = ref<Array<any>>([])
 
-        const getSoundsFromTable = () => {            
+        const getSoundsFromTable = () => {
             store.dispatch(tableActions.GET_SOUNDS, props.tableSelected).then(res => {
                 rawTable.value = res
 
                 soundList.value = res.sounds
 
                 soundList.value.sort((a: any, b: any) => {
-                    if(a.group > b.group)
+                    if (a.group > b.group)
                         return 1
 
-                    if(a.group < b.group)
+                    if (a.group < b.group)
                         return -1
 
                     return 0
@@ -175,7 +179,7 @@ export default {
 
         const getGroupColor = (group: string) => {
             let currentGroup = groupList.value.find((item: any) => item.name == group)
-            if(currentGroup)
+            if (currentGroup)
                 return groupList.value.find((item: any) => item.name == group).color
             else
                 return '#cdcdcd'
@@ -183,13 +187,13 @@ export default {
 
         const openSoundOptions = (sound: Sound, event: any) => {
             event.stopPropagation();
-                sound.config = !sound.config
+            sound.config = !sound.config
         }
 
         const triggerConfigModeLeave = (sound: Sound) => {
             sound.configTimer = setTimeout(() => {
                 sound.config = false
-            }, 500)            
+            }, 500)
         }
 
         const checkLuma = (color: string) => {
@@ -227,7 +231,7 @@ export default {
 
         const deleteSound = (sound: Sound, evt: any) => {
             evt.stopPropagation()
-                    
+
             ElMessageBox.confirm(
                 `Você está prestes a deletar o som: ${sound.name}`,
                 'Warning',
@@ -240,11 +244,11 @@ export default {
                 let model = {
                     table: props.tableSelected,
                     soundId: sound.id!
-                } 
-                
+                }
+
                 store.dispatch(tableActions.DELETE_SOUND, model).then(() => getSoundsFromTable())
             })
-        
+
         }
 
         const backToTableList = () => {
@@ -258,9 +262,9 @@ export default {
         const soundControlRef = ref()
 
         const playAudio = (sound: Sound) => {
-            if(sound.loaded && !sound.config){
+            if (sound.loaded && !sound.config) {
                 let currentSound = audioList.value.find(item => item.id == sound._videoId)
-                
+
                 soundControlRef.value.playAudio(currentSound)
             }
         }
@@ -290,4 +294,6 @@ export default {
 }
 </script>
 
-<style>@import url(../../assets/style/soundList/index.css);</style>
+<style>
+@import url(../../assets/style/soundList/index.css);
+</style>

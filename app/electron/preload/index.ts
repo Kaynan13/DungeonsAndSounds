@@ -68,18 +68,23 @@ function useLoading() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #282c34;
+  background: #111;
   z-index: 9;
 }
 
 .app-title-container{
+    width: 250px;
     color: #ef3737;        
     font-family: sans-serif;
-    font-weight: bold;    
-    margin-top: 30px;
+    font-weight: bold;        
     font-size: 30px;
     letter-spacing: 1px;
     overflow: hidden;
+    animation: square-spin 1s ease infinite alternate-reverse;
+}
+
+.app-title-container img{
+    width: 100%;
 }
 
 .title-text{
@@ -93,12 +98,9 @@ function useLoading() {
     oStyle.id = 'app-loading-style'
     oStyle.innerHTML = styleContent
     oDiv.className = 'app-loading-wrap'
-    oDiv.innerHTML = `<div class="${className}">
-                        <div class="app-logo"></div>
+    oDiv.innerHTML = `<div class="${className}">                        
                         <div class="app-title-container">
-                            <div class="title-text">
-                                Dungeons And Sounds
-                            </div>
+                            <img src="/src/assets/images/DS-Logo.png" />
                         </div>
                       </div>`
 

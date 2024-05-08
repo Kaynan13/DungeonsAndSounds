@@ -1,6 +1,6 @@
 <template>
     <div class="aside-menu-icons">
-        <img src="../assets/images/logo.png">
+        <img src="../assets/images/DS-Logo.png">
         <!-- <ul>
             <el-tooltip class="box-item" effect="light" content="Jogar" placement="right">
                 <router-link to="home">

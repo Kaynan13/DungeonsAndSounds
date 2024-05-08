@@ -1,7 +1,7 @@
 import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron'
 import { release } from 'node:os'
 import { join } from 'node:path'
-import { autoUpdater, AppUpdater } from 'electron-updater'
+import { autoUpdater } from 'electron-updater'
 
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;

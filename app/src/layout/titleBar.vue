@@ -3,8 +3,8 @@
 
         <div class="left-content">
             <!-- <img src="" alt=""> -->
-            Dungeons and Sounds
-            <span class="version">{{ appVersion }}</span>            
+            <img src="../assets/images/DS-Logo.png">
+            <span class="version">v{{ appVersion }}</span>            
         </div>
 
         <div class="right-content">

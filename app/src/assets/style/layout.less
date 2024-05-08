@@ -22,7 +22,7 @@
 // }
 
 body {
-    #app {
+    .app {
         width: 100%;
         min-height: 100svh;
         color: #fff;
@@ -63,6 +63,10 @@ body {
             padding-left: 5px;
             font-size: 15px;
             letter-spacing: 1px;
+
+            img{
+                max-height: 100%;
+            }
 
             .version {
                 color: #555;
@@ -187,11 +191,10 @@ body {
     }
 
     main {
-        width: ~"calc(100% - 55px)";
+        width: 100%;
         overflow: auto;
         min-height: ~"calc(100svh - 30px)";
-        margin-top: 30px;
-        margin-left: 55px;
+        margin-top: 30px;        
         background-color: #1b1b1b;
 
         .manage-sound-table {

@@ -122,7 +122,8 @@ export default class TableModule extends VuexModule {
     [tableActions.POST_SOUND](data: postSound) {
         return new Promise((resolve, reject) => {
             let tableName = data.table.includes('.json') ? data.table : `${data.table}.json`;
-            let model: Table = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));
+            let tableResult = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }))
+            let model: any = typeof tableResult == 'string' ? JSON.parse(tableResult) : tableResult
 
             data.sound.id = model.sounds.length > 0 ? model.sounds[model.sounds.length - 1].id! + 1 : 1;
             model.sounds.push(data.sound)
@@ -140,9 +141,10 @@ export default class TableModule extends VuexModule {
 
     @Action
     [tableActions.PUT_SOUND](data: putSound) {
-        return new Promise((resolve, reject) => {
-            let tableName = data.table.includes('.json') ? data.table : `${data.table}.json`;
-            let model: any = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));
+        return new Promise(async (resolve, reject) => {
+            let tableName = data.table.includes('.json') ? data.table : `${data.table}.json`
+            let tableResult = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }))
+            let model: any = typeof tableResult == 'string' ? JSON.parse(tableResult) : tableResult
 
             if (model.sounds.findIndex((item: Sound) => item.id == data.sound.id) < 0) {
                 console.error('Sound does not exist in table');
@@ -172,8 +174,9 @@ export default class TableModule extends VuexModule {
     @Action
     [tableActions.DELETE_SOUND](data: deleteSound) {
         return new Promise((resolve, reject) => {
-            let tableName = data.table.includes('.json') ? data.table : `${data.table}.json`;
-            let model: any = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));;
+            let tableName = data.table.includes('.json') ? data.table : `${data.table}.json`      
+            let tableResult = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }))
+            let model: any = typeof tableResult == 'string' ? JSON.parse(tableResult) : tableResult
 
             let index = model.sounds.findIndex((item: Sound) => item.id == data.soundId);
 
@@ -199,7 +202,8 @@ export default class TableModule extends VuexModule {
     [tableActions.POST_GROUP_RANGE](data: postGroupRange) {
         return new Promise((resolve, reject) => {            
             let tableName = data.table.includes('.json') ? data.table : `${data.table}.json`;
-            let model: any = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));
+            let tableResult = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }))
+            let model: any = typeof tableResult == 'string' ? JSON.parse(tableResult) : tableResult
 
             while(typeof model == 'string')
                 model = JSON.parse(model)
@@ -224,7 +228,8 @@ export default class TableModule extends VuexModule {
     [tableActions.POST_GROUP](data: postGroup) {
         return new Promise((resolve, reject) => {
             let tableName = data.table.includes('.json') ? data.table : `${data.table}.json`;
-            let model: Table = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));
+            let tableResult = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }))
+            let model: any = typeof tableResult == 'string' ? JSON.parse(tableResult) : tableResult
             
             model.groups.push(data.group)
 
@@ -243,7 +248,8 @@ export default class TableModule extends VuexModule {
     [tableActions.PUT_GROUP](data: putGroup) {
         return new Promise((resolve, reject) => {
             let tableName = data.table.includes('.json') ? data.table : `${data.table}.json`;
-            let model: any = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }));;
+            let tableResult = JSON.parse(fs.readFileSync(`${this.folderDir}/${tableName}`, { encoding: 'utf8', flag: 'r' }))
+            let model: any = typeof tableResult == 'string' ? JSON.parse(tableResult) : tableResult
 
             if (model.groups.findIndex((item: any) => item.name == data.group.name) < 0) {
                 console.error('Group does not exist in table');

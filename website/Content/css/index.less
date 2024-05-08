@@ -1,52 +1,69 @@
-body{
+body {
     margin: 0;
     padding: 0;
-    background-color: #2f3235;
+    background-color: #222;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     font-family: sans-serif;
-    
-    a{
+
+    a {
         text-decoration: none;
         color: #db292f;
     }
 
-    header{
+    header {
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
         align-items: center;
         padding: 20px 0;
 
-        img{
-            width: 150px;
-            margin-right: 20px;
-        }
-
-        .title{
-            font-size: 50px;
-            color: #db292f;
-            font-weight: bold;
+        img {
+            width: 250px;
         }
     }
 
-    main{
-        max-width: 720px;
-        margin-top: 40px;
+    main {
+        width: ~"calc(100% - 20px)";
+        max-width: 920px;
+        margin-top: 20px;
         color: #fff;
 
-        .git-link{
-            display: block;
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
+        p {
+            line-height: 1.5;            
+        }
 
-            img{
+        .tutor{
+            margin-top: 25px;
+            margin-bottom: 10px;
+            color: #ff1b22;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .image-content {
+            max-width: 100%;
+
+            &.double {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .git-link {
+            color: #fff;
+            text-decoration: underline;
+
+            img {
                 width: 20px;
                 filter: invert(100%);
-                margin-right: 5px;
+                margin-left: 5px;
             }
         }
     }
