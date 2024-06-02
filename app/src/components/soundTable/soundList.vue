@@ -3,6 +3,31 @@
         <soundHeader :soundsGroups="groupList" :tableSelected="tableSelected" @selectedGroup="filterGroup"
             @back="backToTableList" />
 
+        <Transition name="slide-fade">
+            <div class="context-menu" v-show="contextToggle" ref="contextMenuRef"
+                :style="{ top: `${mousePosition.y}px`, left: `${mousePosition.x}px` }"
+                @mouseleave="closeContextMenu">
+                <div class="context-title">
+                    {{ soundContextSelected ? soundContextSelected.name : 'Ações Rápidas' }}
+                </div>
+
+                <ul class="context-list">
+                    <li @click="playWithLoop">
+                        <el-icon><RefreshRight /></el-icon>
+                        Iniciar em Loop
+                    </li>
+                    <li @click="editSound(soundContextSelected, $event)">
+                        <el-icon><Edit /></el-icon>
+                        Editar Som
+                    </li>
+                    <li @click="deleteSound(soundContextSelected, $event)">
+                        <el-icon><Delete /></el-icon>
+                        Excliur Som
+                    </li>
+                </ul>
+            </div>
+        </Transition>
+
         <div class="sound-list-container">
             <div class="sound-list">
 
@@ -15,7 +40,7 @@
 
                 <div :class="['sound-button', sound.config ? 'config' : '', sound.loaded ? '' : 'inative']"
                     v-for="(sound, index) in soundList" @mouseleave="triggerConfigModeLeave(sound)"
-                    @click="playAudio(sound)">
+                    @click="playAudio(sound)" @contextmenu.prevent="openContextMenu($event, sound)">
 
                     <div class="sound-image" :style="{ 'background-image': `url(${sound.imageUrl})` }"></div>
 
@@ -23,8 +48,8 @@
 
                         <div class="sound-group"
                             :style="{ backgroundColor: getGroupColor(sound.group), color: checkLuma(getGroupColor(sound.group)) }">
-                            {{
-            sound.group }}</div>
+                            {{ sound.group }}
+                        </div>
 
                         <div class="sound-infos-content">
 
@@ -68,8 +93,6 @@
         <soundCreate ref="soundCreateRef" :tableSelected="tableSelected" :groupList="groupList"
             @created="getSoundsFromTable" />
 
-        <!-- <sceneTimeline /> -->
-
         <soundControl ref="soundControlRef" />
     </div>
 </template>
@@ -86,7 +109,6 @@ import { postGroupRange } from '../../store/interface/tableInterface'
 
 import soundCreate from './soundCreate.vue'
 import soundControl from './soundControl.vue'
-import sceneTimeline from './sceneTimeline.vue'
 import soundHeader from './header.vue'
 
 export default {
@@ -105,7 +127,6 @@ export default {
         soundCreate,
         soundHeader,
         soundControl,
-        sceneTimeline,
     },
 
     setup(props, { emit }) {
@@ -132,6 +153,16 @@ export default {
                 })
 
                 groupList.value = res.groups ? res.groups : []
+
+                groupList.value.sort((a: any, b: any) => {
+                    if(a.name < b.name)
+                        return -1
+
+                    if(a.name > b.name)
+                        return 1
+
+                    return 0
+                })
 
                 let hasGroups = false
                 if (groupList.value.length > 0)
@@ -252,6 +283,7 @@ export default {
         }
 
         const backToTableList = () => {
+            soundControlRef.value.clearAudios()
             emit('back')
         }
 
@@ -269,6 +301,35 @@ export default {
             }
         }
 
+        const contextMenuRef = ref()
+        const contextToggle = ref<boolean>(false)
+        const mousePosition = ref({ x: 0, y: 0 })
+        const soundContextSelected = ref<Sound>(new Sound())
+
+        const openContextMenu = (event: any, sound: Sound) => {
+            if (sound.loaded) {
+                let [X, Y] = [event.clientX, event.clientY]
+
+                mousePosition.value.x = X + 200 > window.innerWidth ? (X - 190) : (X - 10)
+                mousePosition.value.y = Y + 150 > window.innerHeight ? (Y - (150 - 10)) : (Y - 10)
+
+                soundContextSelected.value = sound
+
+                contextToggle.value = true;
+            }
+        }
+
+        const closeContextMenu = () => {
+            soundContextSelected.value = new Sound();
+            contextToggle.value = false;
+        }
+
+        const playWithLoop = () => {
+            let currentSound = audioList.value.find(item => item.id == soundContextSelected.value!._videoId)
+
+            soundControlRef.value.playAudio(currentSound, { loop: true })
+        }
+
 
         return {
             // data
@@ -276,6 +337,10 @@ export default {
             groupList,
             soundCreateRef,
             soundControlRef,
+            contextMenuRef,
+            mousePosition,
+            contextToggle,
+            soundContextSelected,
 
             // methods
             openSoundOptions,
@@ -289,6 +354,9 @@ export default {
             backToTableList,
             filterGroup,
             playAudio,
+            openContextMenu,
+            closeContextMenu,
+            playWithLoop,
         }
     }
 }

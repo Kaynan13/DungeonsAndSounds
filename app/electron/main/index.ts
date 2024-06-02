@@ -86,9 +86,7 @@ async function createWindow() {
 app.whenReady().then(() => {
 	createWindow();
 
-	autoUpdater.checkForUpdates();	
-
-	folderSelect();
+	autoUpdater.checkForUpdates();
 })
 
 app.on('window-all-closed', () => {

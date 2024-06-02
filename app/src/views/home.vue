@@ -1,10 +1,10 @@
-<template>    
+<template>
     <!-- Home and tables manager -->
-    <tableList ref="tableListRef" v-if="tableSelected == '' && configLoaded" @create="opentableCreate" @select="selectTable" />
+    <tableList ref="tableListRef" v-if="tableSelected == '' && configLoaded" @create="opentableCreate"
+        @select="selectTable" />
     <tableCreate ref="tableCreateRef" v-if="tableSelected == '' && configLoaded" @created="updateList" />
 
-    <!-- Sounds and scenes manager -->
-    <!-- <soundTable v-if="tableSelected !== ''" :tableSelected="tableSelected" @back="tableSelected = ''" /> -->
+    <!-- Sounds and scenes manager -->    
     <soundList v-if="tableSelected !== ''" :tableSelected="tableSelected" @back="tableSelected = ''" />
 </template>
 
@@ -22,8 +22,7 @@ import { ipcRenderer } from 'electron'
 import { tableActions } from '../store/enums/tableEnum'
 
 export default {
-    components: {
-        // soundTable,
+    components: {        
         tableCreate,
         tableList,
         soundList
@@ -43,18 +42,18 @@ export default {
 
             if (!files.includes('configFile.json'))
                 ipcRenderer.send('choosePath')
-            else{
+            else {
                 store.dispatch(tableActions.GET_CONFIG_FILE)
                 configLoaded.value = true
             }
         })
-        
+
         ipcRenderer.on('choosedPath', (evt, path) => {
             let model = {
                 tablesPath: path
             }
             store.dispatch(tableActions.CREATE_CONFIG_FILE, model)
-            store.dispatch(tableActions.SET_FOLDER_DIR_ACTION, path)            
+            store.dispatch(tableActions.SET_FOLDER_DIR_ACTION, path)
             configLoaded.value = true
         })
 

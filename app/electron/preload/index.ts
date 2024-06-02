@@ -153,7 +153,7 @@ createServer(async (request: any, response) => {
 
     var videoId: string = urlData.query['id'] as string;
 
-    if (urlData.pathname == '/getAudio') {
+    if (urlData.pathname == '/getAudio') {        
         response.setHeader('Content-Disposition', `attachment; filename="${videoId}.mp3"`)
 
         if (videoId && videoId != 'undefined') {

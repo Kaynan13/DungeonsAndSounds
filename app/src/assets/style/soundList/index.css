@@ -176,6 +176,12 @@
   filter: drop-shadow(0 0 20px #000);
   cursor: pointer;
 }
+.sound-list-page .sound-list-container .sound-list .sound-button:not(.inative):active {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 10px #000);
+  cursor: pointer;
+  transition: none;
+}
 .sound-list-page .sound-list-container .sound-list .sound-button.inative {
   filter: unset !important;
   border: 1px solid #222;
@@ -394,4 +400,53 @@
 }
 .sound-list-page .sound-control-panel .control-audio-content .control-audio .control-buttons button {
   margin: 10px 0 !important;
+}
+.sound-list-page .context-menu {
+  width: 200px;
+  position: absolute;
+  background-color: #1b1b1b;
+  border-radius: 5px;
+  z-index: 9;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+  font-size: 12px;
+  overflow: hidden;
+}
+.sound-list-page .context-menu .context-title {
+  padding: 5px 10px;
+  width: calc(100% - 20px);
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 1px solid #222;
+}
+.sound-list-page .context-menu .context-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.sound-list-page .context-menu .context-list li {
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+}
+.sound-list-page .context-menu .context-list li:not(:last-of-type) {
+  border-bottom: 1px solid #222;
+}
+.sound-list-page .context-menu .context-list li:hover {
+  background-color: #222;
+  cursor: pointer;
+}
+.sound-list-page .context-menu .context-list li .el-icon {
+  margin-right: 5px;
+}
+.slide-fade-enter-active {
+  transition: all 0.1s ease-out;
+}
+.slide-fade-leave-active {
+  transition: none;
+}
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateY(-10px);
+  opacity: 0;
 }

@@ -1,0 +1,74 @@
+.consultbook-container {
+  width: 100%;
+}
+.consultbook-container .consultbook-header {
+  width: 100%;
+  padding: 2px 0;
+  background-color: #333;
+  font-size: 12px;
+  text-align: center;
+  cursor: pointer;
+}
+.consultbook-container .consultbook-content {
+  width: 100%;
+  padding: 5px 0;
+}
+.consultbook-container .consultbook-content .content-header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+.consultbook-container .consultbook-content .content-body {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.consultbook-container .consultbook-content .content-body .main-result-container {
+  max-height: 300px;
+}
+.consultbook-container .consultbook-content .content-body .main-result-container .item-list {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  grid-column-start: 0;
+  grid-column-end: 2;
+}
+.consultbook-container .consultbook-content .content-body .main-result-container span {
+  font-size: 12px;
+  padding: 2px 5px;
+  cursor: pointer;
+  color: #888;
+}
+.consultbook-container .consultbook-content .content-body .main-result-container span.selected {
+  color: #efefef;
+}
+.consultbook-container .consultbook-content .content-body .main-result-container span.hide {
+  display: none;
+}
+.consultbook-container .consultbook-content .content-body .sub-result-container {
+  max-height: 300px;
+  overflow-y: auto;
+  grid-column-start: 2;
+  grid-column-end: 5;
+}
+.consultbook-container .consultbook-content .content-body .sub-result-container .book-page {
+  padding: 5px 10px;
+}
+.consultbook-container .consultbook-content .content-body .sub-result-container .book-page .page-title {
+  font-weight: bold;
+  text-transform: capitalize;
+  color: #fff;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+.consultbook-container .consultbook-content .content-body .sub-result-container .book-page .page-subtitle {
+  font-weight: bold;
+  color: #ababab;
+  text-transform: capitalize;
+}
+.consultbook-container .consultbook-content .content-body .sub-result-container .book-page .page-info {
+  line-height: 1.2;
+  color: #888;
+}

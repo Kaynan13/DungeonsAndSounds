@@ -1,0 +1,89 @@
+.consultbook-container {
+    width: 100%;
+
+    .consultbook-header {
+        width: 100%;
+        padding: 2px 0;
+        background-color: #333;
+        font-size: 12px;
+        text-align: center;
+        cursor: pointer;
+    }
+    
+    .consultbook-content {
+        width: 100%;
+        padding: 5px 0;
+        
+        .content-header {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 5px;
+        }
+
+        .content-body {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            .main-result-container {
+                max-height: 300px;
+
+                .item-list {
+                    display: flex;
+                    flex-wrap: nowrap;
+                    flex-direction: column;
+                    height: 100%;
+                    overflow-y: auto;
+                    grid-column-start: 0;
+                    grid-column-end: 2;
+                }
+
+
+                span {
+                    font-size: 12px;
+                    padding: 2px 5px;
+                    cursor: pointer;
+                    color: #888;
+
+                    &.selected {
+                        color: #efefef;
+                    }
+
+                    &.hide {
+                        display: none;
+                    }
+                }
+            }
+
+            .sub-result-container {
+                max-height: 300px;
+                overflow-y: auto;
+                grid-column-start: 2;
+                grid-column-end: 5;
+
+                .book-page {
+                    padding: 5px 10px;
+
+                    .page-title {
+                        font-weight: bold;
+                        text-transform: capitalize;
+                        color: #fff;
+                        font-size: 15px;
+                        letter-spacing: 0.5px;
+                    }
+
+                    .page-subtitle {
+                        font-weight: bold;
+                        color: #ababab;
+                        text-transform: capitalize;
+                    }
+
+                    .page-info {
+                        line-height: 1.2;
+                        color: #888;                        
+                    }
+                }
+            }
+        }
+    }
+}

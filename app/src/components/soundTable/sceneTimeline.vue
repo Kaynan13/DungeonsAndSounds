@@ -16,9 +16,7 @@
                 <div class="layer-container">
                     <div class="layer" style="width: 200px">
 
-                        <div class="layer-left-side" @mousedown="grabLeft($event)"
-                        @mouseup="releaseLeft($event)" @mouseleave="releaseLeft($event)"
-                        @mousemove="moveLeft($event)"></div>
+                        <div class="layer-left-side"></div>
 
                         <div class="layer-content" @mousedown="grabSound($event)"
                         @mouseup="releaseSound($event)" @mouseleave="releaseSound($event)"
