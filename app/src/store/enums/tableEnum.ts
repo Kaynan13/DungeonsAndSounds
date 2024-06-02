@@ -13,12 +13,14 @@ enum tableActions {
     DELETE_SOUND = "DeleteSound",
     SET_TABLE_GETTER_ACTION = "SetTableGetterAction",
     GET_VIDEO_INFOS = "GetVideoInfos",
-    SET_FOLDER_DIR_ACTION = "SetFolderDirAction"
+    SET_FOLDER_DIR_ACTION = "SetFolderDirAction",
+    SET_UPDATE_ACTION = "SetUpdateAction",
 }
 
 enum tableMutations{
     SET_TABLE_GETTER = "SetTableGetter",
     SET_FOLDER_DIR = "SetFoldeDir",
+    SET_UPDATE_MUTATION = "SetUpdateMutation",
 }
 
 export {

@@ -4,14 +4,18 @@
         <div class="left-content">
             <!-- <img src="" alt=""> -->
             <img src="../assets/images/DS-Logo.png">
-            <span class="version">v{{ appVersion }}</span>            
+            <span class="version">v{{ appVersion }}</span>
         </div>
 
         <div class="right-content">
-            <el-tooltip content="Nova versão disponivel" v-if="hasUpdate">
+            <el-tooltip :content="startedUpdate ? 'Baixando nova versão' : 'Nova versão disponivel'" v-if="hasUpdate">
                 <button class="update-button" @click="downloadUpdate">
-                    <el-icon>
+                    <el-icon v-if="!startedUpdate">
                         <Download />
+                    </el-icon>
+
+                    <el-icon class="is-loading" v-if="startedUpdate">
+                        <Loading />
                     </el-icon>
                 </button>
             </el-tooltip>
@@ -30,8 +34,8 @@
                 <el-icon>
                     <CloseBold />
                 </el-icon>
-            </button>            
-        </div>        
+            </button>
+        </div>
 
     </div>
 </template>
@@ -45,9 +49,13 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 
 import { version } from '../../package.json'
 
+import { useStore } from 'vuex'
+
 export default {
     setup() {
-        const appVersion = ref(version);
+        const store = useStore()
+
+        const appVersion = ref(version)
 
         const winMinimize = () => {
             ipcRenderer.send('minimize')
@@ -65,26 +73,31 @@ export default {
             ipcRenderer.send('close')
         }
 
-        const hasUpdate = ref<boolean>(false);
+        const hasUpdate = ref<boolean>(store.getters.updateAvaliable)
+        const startedUpdate = ref<boolean>(false)
 
-        ipcRenderer.on('update-avaliable', () => {
-            hasUpdate.value = true;            
+        onMounted(() => {
+            hasUpdate.value = store.getters.updateAvaliable
         })
 
         const downloadUpdate = () => {
-            ElMessageBox.confirm(
-                `Bora instalar a nova versão do Dungeons and Sounds?`,
-                'Success',
-                {
-                    confirmButtonText: 'Atualizar',
-                    cancelButtonText: 'Deixa pra depois',
-                    type: 'success',
-                    title: 'Yeeeees!',
-                    icon: 'Download'
-                }
-            ).then(() => {
-                ipcRenderer.send('start-update');
-            });
+            if (!startedUpdate.value) {
+                ElMessageBox.confirm(
+                    `Bora instalar a nova versão do Dungeons and Sounds?`,
+                    'Success',
+                    {
+                        confirmButtonText: 'Atualizar',
+                        cancelButtonText: 'Deixa pra depois',
+                        type: 'success',
+                        title: 'Yeeeees!',
+                        icon: 'Download'
+                    }
+                ).then(() => {
+                    ipcRenderer.send('start-update')
+
+                    startedUpdate.value = true
+                });
+            }
         }
 
         ipcRenderer.on('update-error', (err: any) => {
@@ -92,12 +105,15 @@ export default {
                 type: 'error',
                 message: err,
             })
+
+            startedUpdate.value = false
         })
 
         return {
             // data
             appVersion,
             hasUpdate,
+            startedUpdate,
 
             // methods        
             winMinimize,

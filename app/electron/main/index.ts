@@ -57,7 +57,7 @@ async function createWindow() {
 			preload,
 			nodeIntegration: true,
 			contextIsolation: false,
-			enableRemoteModule: true,
+			// enableRemoteModule: true,
 			devTools: true
 		},
 	})
@@ -85,7 +85,7 @@ async function createWindow() {
 
 app.whenReady().then(() => {
 	createWindow();
-
+	
 	autoUpdater.checkForUpdates();
 })
 
@@ -154,7 +154,7 @@ autoUpdater.on("update-available", () => {
 })
 
 ipcMain.on('start-update', () => {
-	autoUpdater.downloadUpdate();
+	autoUpdater.downloadUpdate();	
 })
 
 autoUpdater.on('update-downloaded', () => {

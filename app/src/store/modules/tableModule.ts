@@ -11,6 +11,7 @@ import axios from "axios";
 
 @Module
 export default class TableModule extends VuexModule {
+    hasUpdate = false
     storage = window.localStorage
     folderDir: string = this.storage.getItem('folderDir')??''
     resourceDir: string = `${__dirname.substring(0, __dirname.indexOf('resources') + 10).replaceAll(/\\/g, "/")}`
@@ -22,6 +23,10 @@ export default class TableModule extends VuexModule {
             this.context.commit(tableMutations.SET_FOLDER_DIR, this.storage.getItem('folderDir'))
         return this.folderDir
     }
+    
+    get updateAvaliable(){
+        return this.hasUpdate
+    }
 
     // MUTATIONS
 
@@ -31,7 +36,17 @@ export default class TableModule extends VuexModule {
         this.storage.setItem('folderDir', path)
     }
 
+    @Mutation
+    [tableMutations.SET_UPDATE_MUTATION](hasUpdate: boolean){
+        this.hasUpdate = hasUpdate
+    }
+
     // ACTIONS
+
+    @Action
+    [tableActions.SET_UPDATE_ACTION](hasUpdate: boolean){
+        this.context.commit(tableMutations.SET_UPDATE_MUTATION, hasUpdate)
+    }
 
     @Action
     [tableActions.SET_FOLDER_DIR_ACTION](path: string){
