@@ -1,6 +1,6 @@
 {
   "name": "DungeonsAndSounds",
-  "version": "2.5.9",
+  "version": "2.5.10",
   "main": "dist-electron/main/index.js",
   "description": "Sound table to use on D&D games.",
   "author": "Kaynan",

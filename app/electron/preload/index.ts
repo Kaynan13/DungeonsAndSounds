@@ -100,7 +100,7 @@ function useLoading() {
     oDiv.className = 'app-loading-wrap'
     oDiv.innerHTML = `<div class="${className}">                        
                         <div class="app-title-container">
-                            <img src="/src/assets/images/DS-Logo.png" />
+                            <img src="https://dungeons-and-sounds.vercel.app/Content/img/DS-Logo.png" />
                         </div>
                       </div>`
 
