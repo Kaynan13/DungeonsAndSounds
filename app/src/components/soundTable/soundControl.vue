@@ -1,9 +1,9 @@
 <template>
-    <div class="sound-control-panel" v-show="audios && audios.length != 0">        
+    <div class="sound-control-panel" v-show="audios && audios.length != 0">
 
         <div class="control-audio-content" v-for="audio in audios">
 
-            <div class="audio-infos" :style="{ backgroundImage: `url(${audio.rawContent.imageUrl})` }">                
+            <div class="audio-infos" :style="{ backgroundImage: `url(${audio.rawContent.imageUrl})` }">
                 <el-progress type="circle" :percentage="audio.progress" :status="audio.audio!.loop ? '' : 'exception'"
                     :show-text="false" />
                 <span>
@@ -57,8 +57,7 @@ export default {
     emit: ['change'],
 
     setup(props, { emit }) {
-        const audios = ref<Array<AudioType>>([]);
-
+        const audios = ref<Array<AudioType>>([]);        
 
         class playConfigs {
             public loop: boolean;
@@ -70,14 +69,11 @@ export default {
             }
         }
 
-        const playAudio = async (audio: AudioType, configs: playConfigs = new playConfigs()) => {
+        const playAudio = async (audio: AudioType, configs: playConfigs = new playConfigs()) => {        
             if (audios.value.some(item => item.id == audio.id)) {
                 restartAudio(audio.id)
-            } else {
-                if (configs.groupName)
-                    audio._sceneName = configs.groupName;
-
-                audios.value.push(audio)
+            } else {                
+                audios.value.push(audio)                
 
                 let currentAudio = audios.value.find(item => item.id == audio.id) as AudioType;
 
@@ -122,6 +118,7 @@ export default {
 
                 if (Math.round(currentAudio.audio?.currentTime!) == Math.round(currentAudio.audio?.duration!)) {
                     currentAudio.audio?.load()
+                    currentAudio.volume = 50
                     currentAudio.status = status.notStarted
                     currentAudio.progress = 0;
 
@@ -148,13 +145,13 @@ export default {
             })
         }
 
-        const stopAudio = (audio: AudioType) => {            
+        const stopAudio = (audio: AudioType) => {
             let currentAudio = audio;
             if (currentAudio && !currentAudio.audio!.paused && currentAudio.status == status.playing) {
                 currentAudio.audio!.pause()
                 currentAudio.audio!.currentTime! = 0
                 currentAudio.status = status.notStarted
-
+                currentAudio.volume = 50
 
                 let defaultIndex = audios.value.findIndex(item => item.id == audio.id)
                 audios.value.splice(defaultIndex, 1)
@@ -206,9 +203,9 @@ export default {
             })
         }
 
-        const clearAudios = () => {                                
-            while (audios.value.length > 0) {                
-                stopAudio(audios.value[0])   
+        const clearAudios = () => {
+            while (audios.value.length > 0) {
+                stopAudio(audios.value[0])
             }
         }
 

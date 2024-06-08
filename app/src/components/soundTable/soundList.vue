@@ -16,6 +16,10 @@
                         <el-icon><RefreshRight /></el-icon>
                         Iniciar em Loop
                     </li>
+                    <li @click="playMuted">                        
+                        <el-icon><Mute /></el-icon>
+                        Iniciar mudo
+                    </li>
                     <li @click="editSound(soundContextSelected, $event)">
                         <el-icon><Edit /></el-icon>
                         Editar Som
@@ -330,6 +334,14 @@ export default {
             soundControlRef.value.playAudio(currentSound, { loop: true })
         }
 
+        const playMuted = () => {
+            let currentSound = audioList.value.find(item => item.id == soundContextSelected.value!._videoId)
+            
+            currentSound!.volume = 0
+
+            soundControlRef.value.playAudio(currentSound)
+        }
+
 
         return {
             // data
@@ -357,6 +369,7 @@ export default {
             openContextMenu,
             closeContextMenu,
             playWithLoop,
+            playMuted,
         }
     }
 }

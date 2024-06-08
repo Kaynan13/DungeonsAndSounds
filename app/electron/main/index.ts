@@ -3,6 +3,11 @@ import { release } from 'node:os'
 import { join } from 'node:path'
 import { autoUpdater } from 'electron-updater'
 
+const { powerSaveBlocker } = require('electron')
+
+powerSaveBlocker.start('prevent-display-sleep')
+powerSaveBlocker.start('prevent-app-suspension')
+
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;
 

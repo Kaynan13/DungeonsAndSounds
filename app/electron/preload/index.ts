@@ -55,7 +55,7 @@ function useLoading() {
   animation-fill-mode: both;
   width: 100px;
   height: 100px;
-  background-image: url(/src/assets/images/logo.png);
+  background-image: url(https://dungeons-and-sounds.vercel.app/Content/img/DS-Logo.png);
   background-size: contain;
   animation: square-spin 1s ease infinite alternate-reverse;
 }
